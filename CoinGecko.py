@@ -42,7 +42,7 @@ def sublink():
   return output
 pass
 
-#def gethistoricaldataforallcoin():
+#def gethistoricaldataforallcoin():test
 
 link = sublink()
 temp = []

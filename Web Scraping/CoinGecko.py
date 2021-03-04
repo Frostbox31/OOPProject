@@ -50,11 +50,15 @@ temp2 = []
 temp3 = []
 dataset =  []
 
+print(len(link))
+
+
 for position in range(len(link)-90):
+  
 
-    request = requests.get(link[position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
+    request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
-    temp3.insert(0,link[position].split("/")[5])
+    temp3.insert(0,link[99-position].split("/")[5])
 
     soup = BeautifulSoup(request.content, 'html.parser')
 

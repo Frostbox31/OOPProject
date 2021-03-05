@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-import sys
-import re
 from datetime import date
 import mysql.connector
+import time
+from decimal import Decimal
 
 
 class Data:
@@ -22,8 +22,8 @@ mydb = mysql.connector.connect(
   database="DataProject"
 )
 
+CalculateTime = Decimal(time.perf_counter())
 
-link = []
 def sublink():
     
   output = []
@@ -42,55 +42,49 @@ def sublink():
   return output
 pass
 
-#def gethistoricaldataforallcoin():test
+def gethistoricaldataforallcoin():
 
-link = sublink()
-temp = []
-temp2 = []
-temp3 = []
-dataset =  []
+  link = sublink()
+  temp = []
+  temp2 = []
+  temp3 = []
+  dataset =  []
 
-print(len(link))
-
-
-for position in range(len(link)-90):
-  
-
-    request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
-
-    temp3.insert(0,link[99-position].split("/")[5])
-
-    soup = BeautifulSoup(request.content, 'html.parser')
-
-    match = soup.find('table')
+  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
     
-    for match in soup.find_all(attrs={"scope": 'row'}): # Comment Link
-        temp.insert(0,match.text)
+      request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
-    for match in soup.find_all("td",class_='text-center'): # Comment Link
-        abc = match.get_text(strip=True)
-        temp2.insert(0,abc)
+      temp3.insert(0,link[99-position].split("/")[5])
 
-    inc =0;
-    for x in range(len(temp)):
-        dataset.insert(0,Data(temp3[0],temp[x],temp2[x+3+inc],temp2[x+2+inc],temp2[x+1+inc],temp2[x+inc]))   
-        inc += 3
-  
-#for x in range(len(dataset)):
-#      print(dataset[x].name)
-#      print(dataset[x].date)
-#      print(dataset[x].marketcap)
-#      print(dataset[x].volume)
-#      print(dataset[x].open)
-#      print(dataset[x].close)
+      soup = BeautifulSoup(request.content, 'html.parser')
 
-mycursor = mydb.cursor()
-for x in range(len(dataset)):
-  sql = 'INSERT INTO CoinGeckoData (Name, Date, MarketCap, Volume, Open, Close) VALUES (%s, %s, %s, %s, %s, %s)'
-  val = (str(dataset[x].name),str(dataset[x].date),str(dataset[x].marketcap),str(dataset[x].volume),str(dataset[x].open),str(dataset[x].close))
-  mycursor.execute(sql, val)
+      match = soup.find('table')
+      
+      for match in soup.find_all(attrs={"scope": 'row'}): # Comment Link
+          temp.insert(len(temp),match.text)
 
-  mydb.commit()
+      for match in soup.find_all("td",class_='text-center'): # Comment Link
+          abc = match.get_text(strip=True)
+          temp2.insert(len(temp),abc)
 
-  print(mycursor.rowcount, "record inserted.")
+      inc =0;
+      for x in range(len(temp)):
+          dataset.insert(0,Data(temp3[0],temp[x],temp2[x+3+inc],temp2[x+2+inc][2:],temp2[x+1+inc],temp2[x+inc]))   
+          inc += 3
+    
+  mycursor = mydb.cursor()
+  sql = 'DELETE FROM CoinGeckoData'
+  mycursor.execute(sql,'')  
+  for x in range(len(dataset)):
+    
+    position = len(dataset) -1
+    
+    sql = 'INSERT INTO CoinGeckoData (Name, Date, MarketCap, Volume, Open, Close) VALUES (%s, %s, %s, %s, %s, %s)'
+    val = (str(dataset[position-x].name),str(dataset[position-x].date),str(dataset[position-x].marketcap),str(dataset[position-x].volume),str(dataset[position-x].open),str(dataset[position-x].close))
+    mycursor.execute(sql, val)
 
+    mydb.commit()
+
+gethistoricaldataforallcoin()
+CalculateTime = Decimal(time.perf_counter()) - CalculateTime
+print(str(CalculateTime) + " Seconds")

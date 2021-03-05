@@ -4,6 +4,7 @@ from datetime import date
 import mysql.connector
 import time
 from decimal import Decimal
+import sys
 
 
 class Data:
@@ -50,7 +51,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-98): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -64,8 +65,7 @@ def gethistoricaldataforallcoin():
           temp.insert(len(temp),match.text)
 
       for match in soup.find_all("td",class_='text-center'): # Comment Link
-          abc = match.get_text(strip=True)
-          temp2.insert(len(temp),abc)
+          temp2.insert(len(temp),match.get_text(strip=True))
 
       inc =0;
       for x in range(len(temp)):
@@ -84,6 +84,57 @@ def gethistoricaldataforallcoin():
     mycursor.execute(sql, val)
 
     mydb.commit()
+pass
+
+#gethistoricaldataforallcoin()
+
+def getdailyvolumeforallcoins():
+  
+    class Volume:
+      def __init__(coin,name,volume):
+          coin.name = name
+          coin.volume = volume
+
+    temp = []
+    temp2 = []
+    pagenumber = 22
+    check = pagenumber
+
+    while pagenumber == check:
+      request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers={'User-agent': 'Super Bot Power Level Over 9000'})
+
+      soup = BeautifulSoup(request.content, 'html.parser')
+
+      for match in soup.find_all(class_="d-none d-lg-block font-bold"):
+          temp.insert(len(temp),match.get_text(strip=True))
+
+      for match in soup.find_all(class_="td-total_volume lit text-right px-0 pl-2"):
+          if match.get_text(strip=True) == "?":
+              temp2.insert(len(temp),"0")
+          else:
+              temp2.insert(len(temp),match.get_text(strip=True)[1:])
+
+      if len(temp) % 300 == 0:
+          pagenumber += 1
+          check += 1
+      else:
+          check -= 1
+    pass
+    
+    mycursor = mydb.cursor()
+    sql = 'DELETE FROM coinvolume'
+    mycursor.execute(sql,'')  
+
+    for x in range(len(temp)):
+        sql = 'INSERT INTO coinvolume (Name,Volume) VALUES (%s, %s)'
+        print(temp[x])
+        print(temp2[x])
+        val = (temp[x],temp2[x])
+        mycursor.execute(sql, val)
+
+pass
+
+#getdailyvolumeforallcoins still debugging
 
 gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime

@@ -51,7 +51,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-98): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -69,7 +69,7 @@ def gethistoricaldataforallcoin():
 
       inc =0;
       for x in range(len(temp)):
-          dataset.insert(0,Data(temp3[0],temp[x],temp2[x+3+inc],temp2[x+2+inc][2:],temp2[x+1+inc],temp2[x+inc]))   
+          dataset.insert(0,Data(temp3[0],temp[x],temp2[x+inc],temp2[x+1+inc][2:],temp2[x+2+inc],temp2[x+3+inc]))   
           inc += 3
     
   mycursor = mydb.cursor()

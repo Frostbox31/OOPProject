@@ -83,8 +83,6 @@ def gethistoricaldataforallcoin():
     mydb.commit()
 pass
 
-#gethistoricaldataforallcoin()
-
 def getdailyvolumeforallcoins():
   
     class Volume:

@@ -19,7 +19,7 @@ class Data:
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="",
+  password="F2814939p",
   database="DataProject"
 )
 
@@ -91,11 +91,13 @@ def getdailyvolumeforallcoins():
           coin.volume = volume
 
     temp = []
-    temp2 = []
-    pagenumber = 22
+    num = []
+    pagenumber = 1
     check = pagenumber
 
     while pagenumber == check:
+      temp2 = []
+      temp3 = []
       request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
       soup = BeautifulSoup(request.content, 'html.parser')
@@ -104,10 +106,24 @@ def getdailyvolumeforallcoins():
           temp.insert(len(temp),match.get_text(strip=True))
 
       for match in soup.find_all(class_="td-total_volume lit text-right px-0 pl-2"):
-          if match.get_text(strip=True) == "?":
-              temp2.insert(len(temp),"0")
+          if match.get_text(strip=True) == "$0.00000000" or match.get_text(strip=True) == "?" :
+              temp2.insert(len(temp2),"0")
           else:
-              temp2.insert(len(temp),match.get_text(strip=True)[1:])
+              temp2.insert(len(temp2),str(match.get_text(strip=True)[1:]).replace(',',''))
+    
+      count = 0
+      for match in soup.find_all(attrs={"data-target": 'price.price'}):
+            if match.has_attr('data-coin-id'):
+                if match.get_text(strip=True) == "$0.00000000" or match.get_text(strip=True) == "?" :
+                    temp3.insert(len(temp3),"0")
+                else:
+                    temp3.insert(len(temp3),str(match.get_text(strip=True)[1:]).replace(',',''))
+
+      for x in range (len(temp2)):
+          if(temp2[x] != "0" and temp3[x] != "0"):
+             num.insert(len(num),float(temp2[x])//float(temp3[x]))
+          else:
+             num.insert(len(num),0)
 
       if len(temp) % 300 == 0:
           pagenumber += 1
@@ -120,17 +136,35 @@ def getdailyvolumeforallcoins():
     sql = 'DELETE FROM coinvolume'
     mycursor.execute(sql,'')  
 
+    totalvolume = 0
+
     for x in range(len(temp)):
-        sql = 'INSERT INTO coinvolume (Name,Volume) VALUES (%s, %s)'
-        print(temp[x])
-        print(temp2[x])
-        val = (temp[x],temp2[x])
+        sql = 'INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)'
+        val = (x+1,temp[x],(float(num[x])))
         mycursor.execute(sql, val)
+        totalvolume += num[x]
+    
+    sql = 'INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)'
+    val = (len(temp)+1,"Total Volume",float(totalvolume))
+    mycursor.execute(sql, val)
+    mydb.commit()
+pass
+
+def gettotalvolumefortheday():
+    
+    mycursor = mydb.cursor()
+    sql = 'SELECT Volume FROM coinvolume WHERE Name=%s'
+    val = ('Total Volume')
+    mycursor.execute(sql,val)  
+
+    totalvolume =  mycursor.fetchall()
+
+    print(totalvolume)
 
 pass
 
-#getdailyvolumeforallcoins still debugging
-
-gethistoricaldataforallcoin()
+#gettotalvolumefortheday() #still fixing
+#getdailyvolumeforallcoins()
+#gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")

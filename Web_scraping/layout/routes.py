@@ -6,37 +6,37 @@ import mysql.connector
 mydb2 = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
-    password="root1",
+    password="F2814939p",
     database="DataProject"
 )
 
 # open DB
 cursor = mydb2.cursor()
 
-# sql = "SELECT Date FROM CoinGeckoData"
+sql = "SELECT Name FROM coinvolume"
 
-# clabels = []
+clabels = []
 
-# try:
-#     # Execute the SQL command
-#     cursor.execute(sql)
-#     # Fetch all the rows in a list of lists.
-#     results = cursor.fetchall()
-#     for row in results(range(5)):
-#         Fdate = row[0]
-#         Cdate = Fdate.replace("S$,","")
-#         clabels.append(Fdate)
-#         # Now print fetched result
-#         # print("fname = %s" %
-#               # (fname))
-# except:
-#     print("Error: unable to fetch data")
+try:
+    # Execute the SQL command
+    cursor.execute(sql)
+    # Fetch all the rows in a list of lists.
+    results = cursor.fetchall()
+    for row in results(range(5)):
+        Fdate = row[0]
+        Cdate = Fdate.replace("S$,","")
+        clabels.append(Fdate)
+        # Now print fetched result
+        # print("fname = %s" %
+              # (fname))
+except:
+    print("Error: unable to fetch data")
 
-# # disconnect from server
-# mydb2.close()
+# disconnect from server
+mydb2.close()
 
 
-sql = "SELECT Open FROM CoinGeckoData"
+sql = "SELECT Volume FROM coinvolume"
 
 cvalues = []
 
@@ -91,7 +91,7 @@ colors = [
 @app.route('/')
 @app.route('/dash')
 def dash():
-    line_labels=blabels
+    line_labels=clabels
     line_values=cvalues
     return render_template('index.html',title='Dashboard', max=999999, labels=line_labels, values=line_values)
 

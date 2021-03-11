@@ -7,7 +7,6 @@ from decimal import Decimal
 import sys
 import datetime 
 
-
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -165,8 +164,8 @@ def gettotalvolumefortheday():
 pass
 
 #gettotalvolumefortheday() #still fixing
-#getdailyvolumeforallcoins()
-#gethistoricaldataforallcoin()
+getdailyvolumeforallcoins()
+gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 

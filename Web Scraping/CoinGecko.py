@@ -193,13 +193,13 @@ class data_manu:
         cur.execute('DELETE FROM weeklyprofit')
         cur2.execute('DELETE FROM yearlyprofit')
         for x in range(len(self.dates_week_list)):
-            sql = "INSERT INTO weeklyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
-            val = (self.name_week[x],self.dates_week_list[x],self.profit_list[x])
+            sql = "INSERT INTO weeklyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.name_week[x],self.dates_week_list[x],self.new_list2[x],self.profit_list[x])
             cur.execute(sql, val)
         self.mydb.commit()
         for x in range(len(self.dates_year_list)):
-            sql = "INSERT INTO yearlyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
-            val = (self.name_year[x],self.dates_year_list[x],self.profit_year_list[x])
+            sql = "INSERT INTO yearlyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.name_year[x],self.dates_year_list[x],self.new_list3[x],self.profit_year_list[x])
             cur2.execute(sql, val)
         self.mydb.commit()
         
@@ -219,6 +219,7 @@ class data_manu:
                 self.name_year.append(item[0])
             else:
                 break
+
         for item in year_list:
             item = item[2:] #remove 's' & '$'
             item = item.replace(',', '') 
@@ -231,10 +232,6 @@ class data_manu:
                   self.profit_year_list.append(profit)
                 except ZeroDivisionError:
                   print('Price cannot be zero')
-
-                
-
-
         #print(dates_year_list)
         #print(year_list)
         #print(profit_year_list)
@@ -281,9 +278,6 @@ class data_manu:
         print(self.dates_week_list)
         print(self.name_week)
     
-
-
-
 
 call = data_manu()    
 call.Query()

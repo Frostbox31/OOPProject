@@ -20,7 +20,7 @@ class Data:
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="F2814939p",
+  password="",
   database="DataProject"
 )
 
@@ -175,46 +175,64 @@ class data_manu:
      
     
     def __init__(self):
-        mydb = mysql.connector.connect(
+        self.mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
         password="",
         database="Dataproject"
         )
     def Query(self): 
-        cur = mydb.cursor() 
+        cur = self.mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
         self.result1 = cur.fetchall()        
         #for name in self.result1:
             #print(name)
-    
+    def Insert(self):
+        cur = self.mydb.cursor()
+        cur2 = self.mydb.cursor() 
+        sql = 'DELETE FROM weeklyprofit'
+        cur.execute(sql,'')
+        for x in range(len(self.dates_week_list)):
+            sql = "INSERT INTO weeklyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
+            val = (self.name[x],self.dates_week_list[x],self.profit_list[x])
+            cur.execute(sql, val)
+        self.mydb.commit()
+        #for x in range(len(self.dates_year_list)):
+            #sql = "INSERT INTO yearlyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
+            #val = (self.name_year[x],self.dates_year_list[x],self.profit_year_list[x])
+            #cur2.execute(sql, val)
+        #self.mydb.commit()
+        
+        
     def yearly_Profit(self):
         year_delta = datetime.timedelta(days=365)
         start_date = self.end_date - year_delta
-        dates_year_list =[]
+        self.dates_year_list =[]
         year_list =[]
-        new_list3=[]
-        profit_year_list=[] 
+        self.new_list3=[]
+        self.profit_year_list=[] 
+        self.name_year =[]
         for item in self.result1[1:]: # skip 1st element as closing price not available yet, hence N/A
             if item[1] >= str(start_date): 
                 year_list.append(item[2])
-                dates_year_list.append(item[1])
+                self.dates_year_list.append(item[1])
+                self.name_year.append(item[0])
             else:
                 break
         for item in year_list:
             item = item[2:] #remove 's' & '$'
             item = item.replace(',', '') 
-            new_list3.append(item)    # might have to change this to avoid create new list
+            self.new_list3.append(item)    # might have to change this to avoid create new list
 
-        today_price = new_list3[0]
-        for price in new_list3[1:]: 
+        today_price = self.new_list3[0]
+        for price in self.new_list3[1:]: 
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
-                profit_year_list.append(profit)
+                self.profit_year_list.append(profit)
 
 
-        print(dates_year_list)
-        print(year_list)
-        print(profit_year_list)
+        #print(dates_year_list)
+        #print(year_list)
+        #print(profit_year_list)
 
     def monthly_Profit(self):
         pass
@@ -226,35 +244,42 @@ class data_manu:
         start_date = self.end_date - week_delta
         #self.start_date = start_date.strftime("%Y-%m-%d")
         #self.end_date = end_date.strftime("%Y-%m-%d") 
-        dates_week_list=[]
+        self.dates_week_list=[]
         week_list=[]
-        new_list2=[]
-        profit_list=[]  
+        self.new_list2=[]
+        self.profit_list=[] 
+        self.name_week = [] 
         for item in self.result1[1:]: # skip 1st element as closing price not available yet, hence N/A
             if item[1] >= str(start_date): 
                 week_list.append(item[2])
-                dates_week_list.append(item[1])
+                self.dates_week_list.append(item[1])
+                self.name_week.append(item[0])
             else:
                 break
         for item in week_list:
             item = item[2:] #remove 's' & '$'
             item = item.replace(',', '') 
-            new_list2.append(item)    # might have to change this to avoid create new list
+            self.new_list2.append(item)    # might have to change this to avoid create new list
 
-        today_price = new_list2[0]
-        for price in new_list2[1:]: 
+        today_price = self.new_list2[0]
+        for price in self.new_list2: 
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
-                profit_list.append(profit)
+                self.profit_list.append(profit)
 
-        print(profit_list)        
+        print(self.profit_list)        
         print(start_date)
         print (self.end_date)
-        print (day_delta)
-        #print(new_list2)
-        #print(dates_week_list)
-        
+        #print (day_delta)
+        print(self.new_list2)
+        print(self.dates_week_list)
+        print(self.name_week)
+    
+
+
+
 
 call = data_manu()    
 call.Query()
 call.weekly_Profit()
 call.yearly_Profit()
+call.Insert()

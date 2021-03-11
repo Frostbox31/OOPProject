@@ -1,10 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import date
+from datetime import date, datetime
 import mysql.connector
 import time
 from decimal import Decimal
 import sys
+import datetime 
 
 
 class Data:
@@ -134,3 +135,92 @@ pass
 gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
+
+
+class data_manu:
+     
+    
+    def __init__(self):
+        mydb = mysql.connector.connect(
+        host="127.0.0.1",
+        user="root",
+        password="",
+        database="Dataproject"
+        )
+    def Query(self): 
+        cur = mydb.cursor() 
+        cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
+        self.result1 = cur.fetchall()        
+        #for name in self.result1:
+            #print(name)
+    
+    def yearly_Profit(self):
+        year_delta = datetime.timedelta(days=365)
+        start_date = self.end_date - year_delta
+        dates_year_list =[]
+        year_list =[]
+        new_list3=[]
+        profit_year_list=[] 
+        for item in self.result1[1:]: # skip 1st element as closing price not available yet, hence N/A
+            if item[1] >= str(start_date): 
+                year_list.append(item[2])
+                dates_year_list.append(item[1])
+            else:
+                break
+        for item in year_list:
+            item = item[2:] #remove 's' & '$'
+            item = item.replace(',', '') 
+            new_list3.append(item)    # might have to change this to avoid create new list
+
+        today_price = new_list3[0]
+        for price in new_list3[1:]: 
+                profit = ((int(today_price) - int(price)) /int(today_price)) *100
+                profit_year_list.append(profit)
+
+
+        print(dates_year_list)
+        print(year_list)
+        print(profit_year_list)
+
+    def monthly_Profit(self):
+        pass
+
+    def weekly_Profit(self):
+        week_delta = datetime.timedelta(weeks=1)
+        day_delta = datetime.timedelta(days=1)
+        self.end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
+        start_date = self.end_date - week_delta
+        #self.start_date = start_date.strftime("%Y-%m-%d")
+        #self.end_date = end_date.strftime("%Y-%m-%d") 
+        dates_week_list=[]
+        week_list=[]
+        new_list2=[]
+        profit_list=[]  
+        for item in self.result1[1:]: # skip 1st element as closing price not available yet, hence N/A
+            if item[1] >= str(start_date): 
+                week_list.append(item[2])
+                dates_week_list.append(item[1])
+            else:
+                break
+        for item in week_list:
+            item = item[2:] #remove 's' & '$'
+            item = item.replace(',', '') 
+            new_list2.append(item)    # might have to change this to avoid create new list
+
+        today_price = new_list2[0]
+        for price in new_list2[1:]: 
+                profit = ((int(today_price) - int(price)) /int(today_price)) *100
+                profit_list.append(profit)
+
+        print(profit_list)        
+        print(start_date)
+        print (self.end_date)
+        print (day_delta)
+        #print(new_list2)
+        #print(dates_week_list)
+        
+
+call = data_manu()    
+call.Query()
+call.weekly_Profit()
+call.yearly_Profit()

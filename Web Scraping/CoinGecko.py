@@ -194,9 +194,10 @@ class data_manu:
         cur.execute(sql,'')
         for x in range(len(self.dates_week_list)):
             sql = "INSERT INTO weeklyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
-            val = (self.name[x],self.dates_week_list[x],self.profit_list[x])
+            val = (self.name_week[x],self.dates_week_list[x],self.profit_list[x])
             cur.execute(sql, val)
         self.mydb.commit()
+
         #for x in range(len(self.dates_year_list)):
             #sql = "INSERT INTO yearlyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
             #val = (self.name_year[x],self.dates_year_list[x],self.profit_year_list[x])
@@ -226,8 +227,13 @@ class data_manu:
 
         today_price = self.new_list3[0]
         for price in self.new_list3[1:]: 
-                profit = ((int(today_price) - int(price)) /int(today_price)) *100
-                self.profit_year_list.append(profit)
+                try:
+                  profit = ((int(today_price) - int(price)) /int(today_price)) *100
+                  self.profit_year_list.append(profit)
+                except ZeroDivisionError:
+                  print('Price cannot be zero')
+
+                
 
 
         #print(dates_year_list)
@@ -263,9 +269,11 @@ class data_manu:
 
         today_price = self.new_list2[0]
         for price in self.new_list2: 
+            try:
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
                 self.profit_list.append(profit)
-
+            except ZeroDivisionError:
+                  print('Price cannot be zero')
         print(self.profit_list)        
         print(start_date)
         print (self.end_date)

@@ -189,20 +189,19 @@ class data_manu:
             #print(name)
     def Insert(self):
         cur = self.mydb.cursor()
-        cur2 = self.mydb.cursor() 
-        sql = 'DELETE FROM weeklyprofit'
-        cur.execute(sql,'')
+        cur2 = self.mydb.cursor()
+        cur.execute('DELETE FROM weeklyprofit')
+        cur2.execute('DELETE FROM yearlyprofit')
         for x in range(len(self.dates_week_list)):
             sql = "INSERT INTO weeklyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
             val = (self.name_week[x],self.dates_week_list[x],self.profit_list[x])
             cur.execute(sql, val)
         self.mydb.commit()
-
-        #for x in range(len(self.dates_year_list)):
-            #sql = "INSERT INTO yearlyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
-            #val = (self.name_year[x],self.dates_year_list[x],self.profit_year_list[x])
-            #cur2.execute(sql, val)
-        #self.mydb.commit()
+        for x in range(len(self.dates_year_list)):
+            sql = "INSERT INTO yearlyprofit (Name,Date,Profit) VALUES (%s,%s, %s)"
+            val = (self.name_year[x],self.dates_year_list[x],self.profit_year_list[x])
+            cur2.execute(sql, val)
+        self.mydb.commit()
         
         
     def yearly_Profit(self):
@@ -226,7 +225,7 @@ class data_manu:
             self.new_list3.append(item)    # might have to change this to avoid create new list
 
         today_price = self.new_list3[0]
-        for price in self.new_list3[1:]: 
+        for price in self.new_list3: 
                 try:
                   profit = ((int(today_price) - int(price)) /int(today_price)) *100
                   self.profit_year_list.append(profit)

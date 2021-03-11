@@ -3,5 +3,5 @@
 #3 setup virtual environment, virtualenv virtualenv
 #4 test activate virtual environment, .\venv\Scripts\activate
 #5 install flask, pip install flask, check - pip show flask OR flask --version
-#6 install mysql connector pip install mysql-connector-python-rf
+#6 install mysql connector pip install mysql-connector-python (if nv do this will encounter SHA error etc)
 #7 test run, python run.py

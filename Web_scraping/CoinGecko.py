@@ -7,6 +7,12 @@ from decimal import Decimal
 import sys
 import datetime 
 
+mydb = mysql.connector.connect(
+  host="127.0.0.1",
+  user="root",
+  password="F2814939p",
+  database="DataProject"
+)
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -15,13 +21,6 @@ class Data:
           coin.volume = volume
           coin.open = open
           coin.close = close
-
-mydb = mysql.connector.connect(
-  host="127.0.0.1",
-  user="root",
-  password="F2814939p",
-  database="DataProject"
-)
 
 CalculateTime = Decimal(time.perf_counter())
 

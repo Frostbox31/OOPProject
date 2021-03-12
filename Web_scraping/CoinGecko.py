@@ -253,7 +253,7 @@ class data_manu:
         #print(dates_week_list)
         
 
-# call = data_manu()    
-# call.Query()
-# call.weekly_Profit()
-# call.yearly_Profit()
+call = data_manu()    
+call.Query()
+call.weekly_Profit()
+call.yearly_Profit()

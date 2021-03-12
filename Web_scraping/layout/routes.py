@@ -6,54 +6,35 @@ import mysql.connector
 mydb2 = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
-    password="root1",
+    password="F2814939p",
     database="DataProject"
 )
 
-# open DB
+# prepare a cursor object using cursor() method
 cursor = mydb2.cursor()
 
-# sql = "SELECT Date FROM CoinGeckoData"
-
-# clabels = []
-
-# try:
-#     # Execute the SQL command
-#     cursor.execute(sql)
-#     # Fetch all the rows in a list of lists.
-#     results = cursor.fetchall()
-#     for row in results(range(5)):
-#         Fdate = row[0]
-#         Cdate = Fdate.replace("S$,","")
-#         clabels.append(Fdate)
-#         # Now print fetched result
-#         # print("fname = %s" %
-#               # (fname))
-# except:
-#     print("Error: unable to fetch data")
-
-# # disconnect from server
-# mydb2.close()
-
-
-sql = "SELECT Open FROM CoinGeckoData"
-
+sql = "SELECT * FROM coinvolume"
+clabels = []
 cvalues = []
-
 try:
     # Execute the SQL command
     cursor.execute(sql)
     # Fetch all the rows in a list of lists.
     results = cursor.fetchall()
-    for row in results(range(5)):
-        Vopen = row[0]
-        cvalues.append(Vopen)
-        # Now print fetched result
-        print("Vopen = %s" %
-              (Vopen))
+    # for i in range(0, 11):
+    count = 0
+    for row in results:
+        if count <= 10:
+            fname = row[1]
+            fvol = row[2]
+            # Now print fetched result
+            print("count = %d, fname = %s, fvol = %d \n" %
+                  (count, fname, fvol))
+            clabels.append(fname)
+            cvalues.append(fvol)
+            count += 1
 except:
-    print("Error: unable to fetch data")
-
+    print("Error: unable to fecth data")
 # disconnect from server
 mydb2.close()
 
@@ -70,9 +51,9 @@ bvalues = [
 ]
 
 tvalues = [
-    1090.03,2104.09,2430.75,2030.11,
-    5370.85,6160.51,6180.27,6540.93,
-    8890.16,11700.89,13120.04,15600.09
+    1090.03, 2104.09, 2430.75, 2030.11,
+    5370.85, 6160.51, 6180.27, 6540.93,
+    8890.16, 11700.89, 13120.04, 15600.09
 ]
 
 tlabels = [
@@ -91,23 +72,25 @@ colors = [
 @app.route('/')
 @app.route('/dash')
 def dash():
-    line_labels=blabels
-    line_values=cvalues
-    return render_template('index.html',title='Dashboard', max=999999, labels=line_labels, values=line_values)
+    line_labels = clabels
+    line_values = cvalues
+    return render_template('index.html', title='Dashboard', max=99999999, labels=line_labels, values=line_values)
+
 
 @app.route('/bitcoin')
 def bitcoin():
-    line_labels=blabels
-    line_values=bvalues
-    return render_template('index.html',title='Bitcoin', max=17000, labels=line_labels, values=line_values)
+    line_labels = blabels
+    line_values = bvalues
+    return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values)
+
 
 @app.route('/ethereum')
 def ethereum():
-    line_labels=tlabels
-    line_values=tvalues
-    return render_template('index.html',title='Ethereum', max=17000, labels=line_labels, values=line_values)
+    line_labels = tlabels
+    line_values = tvalues
+    return render_template('index.html', title='Ethereum', max=17000, labels=line_labels, values=line_values)
 
-    
+
 @app.route('/home')
 def homepage():
-    return render_template('homepage.html',title='homepage')
+    return render_template('homepage.html', title='homepage')

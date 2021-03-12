@@ -7,7 +7,6 @@ from decimal import Decimal
 import sys
 import datetime 
 
-
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -20,7 +19,7 @@ class Data:
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="",
+  password="F2814939p",
   database="DataProject"
 )
 
@@ -52,7 +51,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-99): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -96,7 +95,7 @@ def getdailyvolumeforallcoins():
     pagenumber = 1
     check = pagenumber
 
-    while pagenumber == check:
+    while pagenumber == 1:
       temp2 = []
       temp3 = []
       request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers={'User-agent': 'Super Bot Power Level Over 9000'})
@@ -165,7 +164,7 @@ def gettotalvolumefortheday():
 pass
 
 #gettotalvolumefortheday() #still fixing
-#getdailyvolumeforallcoins()
+getdailyvolumeforallcoins()
 #gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
@@ -175,14 +174,14 @@ class data_manu:
      
     
     def __init__(self):
-        self.mydb = mysql.connector.connect(
+        mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
         password="",
         database="Dataproject"
         )
     def Query(self): 
-        cur = self.mydb.cursor() 
+        cur = mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
         self.result1 = cur.fetchall()        
         for name in self.result1:
@@ -205,37 +204,36 @@ class data_manu:
         self.mydb.commit()
         
         
+        #for name in self.result1:
+            #print(name)
+    
     def yearly_Profit(self):
         year_delta = datetime.timedelta(days=365)
         start_date = self.end_date - year_delta
-        self.dates_year_list =[]
+        dates_year_list =[]
         year_list =[]
-        self.new_list3=[]
-        self.profit_year_list=[] 
-        self.name_year =[]
+        new_list3=[]
+        profit_year_list=[] 
         for item in self.result1[1:]: # skip 1st element as closing price not available yet, hence N/A
             if item[1] >= str(start_date): 
                 year_list.append(item[2])
-                self.dates_year_list.append(item[1])
-                self.name_year.append(item[0])
+                dates_year_list.append(item[1])
             else:
                 break
-
         for item in year_list:
             item = item[2:] #remove 's' & '$'
             item = item.replace(',', '') 
-            self.new_list3.append(item)    # might have to change this to avoid create new list
+            new_list3.append(item)    # might have to change this to avoid create new list
 
-        today_price = self.new_list3[0]
-        for price in self.new_list3: 
-                try:
-                  profit = ((int(today_price) - int(price)) /int(today_price)) *100
-                  self.profit_year_list.append(profit)
-                except ZeroDivisionError:
-                  print('Price cannot be zero')
-        #print(dates_year_list)
-        #print(year_list)
-        #print(profit_year_list)
+        today_price = new_list3[0]
+        for price in new_list3[1:]: 
+                profit = ((int(today_price) - int(price)) /int(today_price)) *100
+                profit_year_list.append(profit)
+
+
+        print(dates_year_list)
+        print(year_list)
+        print(profit_year_list)
 
     def monthly_Profit(self):
       pass  
@@ -247,41 +245,35 @@ class data_manu:
         start_date = self.end_date - week_delta
         #self.start_date = start_date.strftime("%Y-%m-%d")
         #self.end_date = end_date.strftime("%Y-%m-%d") 
-        self.dates_week_list=[]
+        dates_week_list=[]
         week_list=[]
-        self.new_list2=[]
-        self.profit_list=[] 
-        self.name_week = [] 
+        new_list2=[]
+        profit_list=[]  
         for item in self.result1[1:]: # skip 1st element as closing price not available yet, hence N/A
             if item[1] >= str(start_date): 
                 week_list.append(item[2])
-                self.dates_week_list.append(item[1])
-                self.name_week.append(item[0])
+                dates_week_list.append(item[1])
             else:
                 break
         for item in week_list:
             item = item[2:] #remove 's' & '$'
             item = item.replace(',', '') 
-            self.new_list2.append(item)    # might have to change this to avoid create new list
+            new_list2.append(item)    # might have to change this to avoid create new list
 
-        today_price = self.new_list2[0]
-        for price in self.new_list2: 
-            try:
+        today_price = new_list2[0]
+        for price in new_list2[1:]: 
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
-                self.profit_list.append(profit)
-            except ZeroDivisionError:
-                  print('Price cannot be zero')
-        print(self.profit_list)        
+                profit_list.append(profit)
+
+        print(profit_list)        
         print(start_date)
         print (self.end_date)
-        #print (day_delta)
-        print(self.new_list2)
-        print(self.dates_week_list)
-        print(self.name_week)
-    
+        print (day_delta)
+        #print(new_list2)
+        #print(dates_week_list)
+        
 
 call = data_manu()    
 call.Query()
 call.weekly_Profit()
 call.yearly_Profit()
-call.Insert()

@@ -24,9 +24,9 @@ try:
     # for i in range(0, 11):
     count = 0
     for row in results:
-        if count <= 25:
+        if count <= 10:
             fname = row[1]
-            fvol = (row[2] / 1000)
+            fvol = row[2]
             # Now print fetched result
             print("count = %d, fname = %s, fvol = %d \n" %
                   (count, fname, fvol))
@@ -74,7 +74,7 @@ colors = [
 def dash():
     line_labels = clabels
     line_values = cvalues
-    return render_template('index.html', title='Dashboard', max=99999, labels=line_labels, values=line_values)
+    return render_template('index.html', title='Dashboard', max=99999999, labels=line_labels, values=line_values)
 
 
 @app.route('/bitcoin')

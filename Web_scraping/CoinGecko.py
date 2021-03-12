@@ -51,7 +51,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-99): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -95,7 +95,7 @@ def getdailyvolumeforallcoins():
     pagenumber = 1
     check = pagenumber
 
-    while pagenumber == check:
+    while pagenumber == 1:
       temp2 = []
       temp3 = []
       request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers={'User-agent': 'Super Bot Power Level Over 9000'})
@@ -164,8 +164,8 @@ def gettotalvolumefortheday():
 pass
 
 #gettotalvolumefortheday() #still fixing
-# getdailyvolumeforallcoins()
-gethistoricaldataforallcoin()
+getdailyvolumeforallcoins()
+#gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 
@@ -253,7 +253,7 @@ class data_manu:
         #print(dates_week_list)
         
 
-call = data_manu()    
-call.Query()
-call.weekly_Profit()
-call.yearly_Profit()
+# call = data_manu()    
+# call.Query()
+# call.weekly_Profit()
+# call.yearly_Profit()

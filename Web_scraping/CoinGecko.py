@@ -50,7 +50,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -163,7 +163,7 @@ pass
 
 #totalvolume = gettotalvolumefortheday() example 
 #getdailyvolumeforallcoins()
-#gethistoricaldataforallcoin()
+gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 

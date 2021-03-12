@@ -10,7 +10,8 @@ import datetime
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="F2814939p",
+  #password="F2814939p",
+ 
   database="DataProject"
 )
 class Data:
@@ -166,7 +167,7 @@ pass
 
 #totalvolume = gettotalvolumefortheday() example 
 #getdailyvolumeforallcoins()
-#gethistoricaldataforallcoin()
+gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 
@@ -184,12 +185,13 @@ class data_manu:
         )
 
     
+
     def Query(self): 
         cur = self.mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
         self.result1 = cur.fetchall()        
-        #for name in self.result1:
-            #print(name)
+        for name in self.result1:
+            print(name)
 
     def Insert(self):
         cur = self.mydb.cursor()

@@ -7,6 +7,7 @@ from decimal import Decimal
 import sys
 import datetime 
 
+
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -19,7 +20,7 @@ class Data:
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="F2814939p",
+  password="",
   database="DataProject"
 )
 
@@ -163,9 +164,10 @@ def gettotalvolumefortheday():
 
 pass
 
+
 #gettotalvolumefortheday() #still fixing
-getdailyvolumeforallcoins()
-#gethistoricaldataforallcoin()
+#getdailyvolumeforallcoins()
+gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 
@@ -180,6 +182,8 @@ class data_manu:
         password="",
         database="Dataproject"
         )
+
+    
     def Query(self): 
         cur = mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
@@ -229,6 +233,7 @@ class data_manu:
         for price in new_list3[1:]: 
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
                 profit_year_list.append(profit)
+
 
 
         print(dates_year_list)

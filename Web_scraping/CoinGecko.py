@@ -10,7 +10,8 @@ import datetime
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="F2814939p",
+  #password="F2814939p",
+  password="",
   database="DataProject"
 )
 class Data:
@@ -178,7 +179,8 @@ class data_manu:
         mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="F2814939p",
+        # password="F2814939p",
+        password="",
         database="Dataproject"
         )
 
@@ -189,7 +191,22 @@ class data_manu:
         self.result1 = cur.fetchall()        
         #for name in self.result1:
             #print(name)
-    
+    def Insert(self):
+        cur = self.mydb.cursor()
+        cur2 = self.mydb.cursor()
+        cur.execute('DELETE FROM weeklyprofit')
+        cur2.execute('DELETE FROM yearlyprofit')
+        for x in range(len(self.dates_week_list)):
+            sql = "INSERT INTO weeklyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.name_week[x],self.dates_week_list[x],self.new_list2[x],self.profit_list[x])
+            cur.execute(sql, val)
+        self.mydb.commit()
+        for x in range(len(self.dates_year_list)):
+            sql = "INSERT INTO yearlyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.name_year[x],self.dates_year_list[x],self.new_list3[x],self.profit_year_list[x])
+            cur2.execute(sql, val)
+        self.mydb.commit()
+        
     def yearly_Profit(self):
         year_delta = datetime.timedelta(days=365)
         start_date = self.end_date - year_delta

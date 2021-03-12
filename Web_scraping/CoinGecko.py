@@ -50,7 +50,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -161,9 +161,12 @@ def gettotalvolumefortheday():
 pass
 
 
-#totalvolume = gettotalvolumefortheday() example 
+#gettotalvolumefortheday() #still fixing
 #getdailyvolumeforallcoins()
 gethistoricaldataforallcoin()
+#totalvolume = gettotalvolumefortheday() example 
+#getdailyvolumeforallcoins()
+#gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 
@@ -178,6 +181,8 @@ class data_manu:
         password="F2814939p",
         database="Dataproject"
         )
+
+    
     def Query(self): 
         cur = mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
@@ -207,6 +212,7 @@ class data_manu:
         for price in new_list3[1:]: 
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
                 profit_year_list.append(profit)
+
 
 
         print(dates_year_list)

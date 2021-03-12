@@ -10,8 +10,7 @@ import datetime
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  #password="F2814939p",
-  password="",
+  password="F2814939p",
   database="DataProject"
 )
 class Data:
@@ -37,8 +36,8 @@ def sublink():
   soup = BeautifulSoup(request.content, 'html.parser')
 
   for match in soup.find_all('a', href=lambda value:value and value.startswith("/en/coins") and not value.endswith(tuple(endwith))): # Comment Link
-            if "https://www.coingecko.com" + match['href'] + "/historical_data/sgd?end_date="+ enddate + "&start_date=" + startdate not in output:
-                output.insert(0,"https://www.coingecko.com" + match['href'] + "/historical_data/sgd?end_date="+ enddate + "&start_date=" + startdate)
+            if "https://www.coingecko.com" + match['href'] + "/historical_data/usd?end_date="+ enddate + "&start_date=" + startdate not in output:
+                output.insert(0,"https://www.coingecko.com" + match['href'] + "/historical_data/usd?end_date="+ enddate + "&start_date=" + startdate)
 
   return output
 pass
@@ -46,16 +45,16 @@ pass
 def gethistoricaldataforallcoin():
 
   link = sublink()
+  
+  dataset =  []
   temp = []
   temp2 = []
-  temp3 = []
-  dataset =  []
 
   for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
-      temp3.insert(0,link[99-position].split("/")[5])
+      temp3 = link[99-position].split("/")[5]
 
       soup = BeautifulSoup(request.content, 'html.parser')
 
@@ -69,8 +68,11 @@ def gethistoricaldataforallcoin():
     
       inc =0;
       for x in range(len(temp)):
-          dataset.insert(len(temp),Data(temp3[0],temp[x],temp2[inc],temp2[1+inc][2:],temp2[2+inc],temp2[3+inc]))   
+          dataset.insert(len(dataset),Data(temp3,temp[x],temp2[inc],temp2[1+inc][2:],temp2[2+inc],temp2[3+inc]))   
           inc += 4
+      
+      temp.clear()
+      temp2.clear()
          
   mycursor = mydb.cursor()
   sql = 'DELETE FROM CoinGeckoData'
@@ -162,9 +164,6 @@ def gettotalvolumefortheday():
 pass
 
 
-#gettotalvolumefortheday() #still fixing
-#getdailyvolumeforallcoins()
-gethistoricaldataforallcoin()
 #totalvolume = gettotalvolumefortheday() example 
 #getdailyvolumeforallcoins()
 #gethistoricaldataforallcoin()

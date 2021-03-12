@@ -51,7 +51,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-99): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -95,7 +95,7 @@ def getdailyvolumeforallcoins():
     pagenumber = 1
     check = pagenumber
 
-    while pagenumber == 1:
+    while pagenumber == check:
       temp2 = []
       temp3 = []
       request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers={'User-agent': 'Super Bot Power Level Over 9000'})

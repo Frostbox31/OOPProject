@@ -178,15 +178,16 @@ class data_manu:
         self.mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="F2814939p",
+        password="",
         database="Dataproject"
         )
     def Query(self): 
         cur = self.mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
         self.result1 = cur.fetchall()        
-        #for name in self.result1:
-            #print(name)
+        for name in self.result1:
+            print(name)
+            
     def Insert(self):
         cur = self.mydb.cursor()
         cur2 = self.mydb.cursor()
@@ -237,7 +238,7 @@ class data_manu:
         #print(profit_year_list)
 
     def monthly_Profit(self):
-        pass
+      pass  
 
     def weekly_Profit(self):
         week_delta = datetime.timedelta(weeks=1)

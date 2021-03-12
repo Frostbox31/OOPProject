@@ -7,12 +7,16 @@ from decimal import Decimal
 import sys
 import datetime 
 
+<<<<<<< HEAD
+
+=======
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
   password="F2814939p",
   database="DataProject"
 )
+>>>>>>> 39f8b7d97d928a07c5f065c92808d754099e8ccd
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -22,6 +26,16 @@ class Data:
           coin.open = open
           coin.close = close
 
+<<<<<<< HEAD
+mydb = mysql.connector.connect(
+  host="127.0.0.1",
+  user="root",
+  password="",
+  database="DataProject"
+)
+
+=======
+>>>>>>> 39f8b7d97d928a07c5f065c92808d754099e8ccd
 CalculateTime = Decimal(time.perf_counter())
 
 def sublink():
@@ -161,6 +175,9 @@ def gettotalvolumefortheday():
 pass
 
 
+#gettotalvolumefortheday() #still fixing
+#getdailyvolumeforallcoins()
+gethistoricaldataforallcoin()
 #totalvolume = gettotalvolumefortheday() example 
 #getdailyvolumeforallcoins()
 gethistoricaldataforallcoin()
@@ -178,6 +195,8 @@ class data_manu:
         password="F2814939p",
         database="Dataproject"
         )
+
+    
     def Query(self): 
         cur = mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
@@ -207,6 +226,7 @@ class data_manu:
         for price in new_list3[1:]: 
                 profit = ((int(today_price) - int(price)) /int(today_price)) *100
                 profit_year_list.append(profit)
+
 
 
         print(dates_year_list)

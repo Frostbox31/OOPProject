@@ -166,7 +166,7 @@ pass
 
 #totalvolume = gettotalvolumefortheday() example 
 #getdailyvolumeforallcoins()
-gethistoricaldataforallcoin()
+#gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 

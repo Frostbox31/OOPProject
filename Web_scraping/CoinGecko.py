@@ -69,7 +69,7 @@ def gethistoricaldataforallcoin():
     
       inc =0;
       for x in range(len(temp)):
-          dataset.insert(len(dataset),Data(temp3,temp[x],temp2[inc],temp2[1+inc][2:],temp2[2+inc],temp2[3+inc]))   
+          dataset.insert(len(dataset),Data(temp3,temp[x],temp2[inc],temp2[1+inc],temp2[2+inc],temp2[3+inc]))   
           inc += 4
       
       temp.clear()
@@ -80,7 +80,7 @@ def gethistoricaldataforallcoin():
   mycursor.execute(sql,'')  
   for x in range(len(dataset)):
     sql = 'INSERT INTO CoinGeckoData (Name, Date, MarketCap, Volume, Open, Close) VALUES (%s, %s, %s, %s, %s, %s)'
-    val = (str(dataset[x].name),str(dataset[x].date),str(dataset[x].marketcap),str(dataset[x].volume),str(dataset[x].open),str(dataset[x].close))
+    val = (str(dataset[x].name),str(dataset[x].date),str(dataset[x].marketcap),str(dataset[x].volume).replace('$',''),str(dataset[x].open),str(dataset[x].close))
     mycursor.execute(sql, val)
 
     mydb.commit()

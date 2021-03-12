@@ -7,7 +7,16 @@ from decimal import Decimal
 import sys
 import datetime 
 
+<<<<<<< HEAD
 
+=======
+mydb = mysql.connector.connect(
+  host="127.0.0.1",
+  user="root",
+  password="F2814939p",
+  database="DataProject"
+)
+>>>>>>> 39f8b7d97d928a07c5f065c92808d754099e8ccd
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -17,6 +26,7 @@ class Data:
           coin.open = open
           coin.close = close
 
+<<<<<<< HEAD
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
@@ -24,6 +34,8 @@ mydb = mysql.connector.connect(
   database="DataProject"
 )
 
+=======
+>>>>>>> 39f8b7d97d928a07c5f065c92808d754099e8ccd
 CalculateTime = Decimal(time.perf_counter())
 
 def sublink():
@@ -52,7 +64,7 @@ def gethistoricaldataforallcoin():
   temp3 = []
   dataset =  []
 
-  for position in range(len(link)-99): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -154,20 +166,21 @@ pass
 def gettotalvolumefortheday():
     
     mycursor = mydb.cursor()
-    sql = 'SELECT Volume FROM coinvolume WHERE Name=%s'
-    val = ('Total Volume')
-    mycursor.execute(sql,val)  
+    sql = 'SELECT Volume FROM coinvolume where name = "Total Volume"'
+    mycursor.execute(sql)  
 
     totalvolume =  mycursor.fetchall()
 
-    print(totalvolume)
-
+    return str(totalvolume[0]).replace('(','').replace(')','').replace(',','')
 pass
 
 
 #gettotalvolumefortheday() #still fixing
 #getdailyvolumeforallcoins()
 gethistoricaldataforallcoin()
+#totalvolume = gettotalvolumefortheday() example 
+#getdailyvolumeforallcoins()
+#gethistoricaldataforallcoin()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")
 
@@ -179,7 +192,7 @@ class data_manu:
         mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="",
+        password="F2814939p",
         database="Dataproject"
         )
 
@@ -188,26 +201,6 @@ class data_manu:
         cur = mydb.cursor() 
         cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
         self.result1 = cur.fetchall()        
-        for name in self.result1:
-            print(name)
-            
-    def Insert(self):
-        cur = self.mydb.cursor()
-        cur2 = self.mydb.cursor()
-        cur.execute('DELETE FROM weeklyprofit')
-        cur2.execute('DELETE FROM yearlyprofit')
-        for x in range(len(self.dates_week_list)):
-            sql = "INSERT INTO weeklyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
-            val = (self.name_week[x],self.dates_week_list[x],self.new_list2[x],self.profit_list[x])
-            cur.execute(sql, val)
-        self.mydb.commit()
-        for x in range(len(self.dates_year_list)):
-            sql = "INSERT INTO yearlyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
-            val = (self.name_year[x],self.dates_year_list[x],self.new_list3[x],self.profit_year_list[x])
-            cur2.execute(sql, val)
-        self.mydb.commit()
-        
-        
         #for name in self.result1:
             #print(name)
     
@@ -241,7 +234,7 @@ class data_manu:
         print(profit_year_list)
 
     def monthly_Profit(self):
-      pass  
+        pass
 
     def weekly_Profit(self):
         week_delta = datetime.timedelta(weeks=1)
@@ -278,7 +271,7 @@ class data_manu:
         #print(dates_week_list)
         
 
-call = data_manu()    
-call.Query()
-call.weekly_Profit()
-call.yearly_Profit()
+#call = data_manu()    
+#call.Query()
+#call.weekly_Profit()
+#call.yearly_Profit()

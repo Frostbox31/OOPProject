@@ -53,7 +53,7 @@ def gethistoricaldataforallcoin():
   temp = []
   temp2 = []
 
-  for position in range(len(link)-97): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -114,7 +114,7 @@ def getdailyvolumeforallcoins():
           if match.get_text(strip=True) == "$0.00000000" or match.get_text(strip=True) == "?" :
               temp2.insert(len(temp2),"0")
           else:
-              temp2.insert(len(temp2),str(match.get_text(strip=True)[1:]).replace(',',''))
+              temp2.insert(len(temp2),str(match.get_text(strip=True)).replace(',','').replace('$',''))
     
       count = 0
       for match in soup.find_all(attrs={"data-target": 'price.price'}):
@@ -122,7 +122,7 @@ def getdailyvolumeforallcoins():
                 if match.get_text(strip=True) == "$0.00000000" or match.get_text(strip=True) == "?" :
                     temp3.insert(len(temp3),"0")
                 else:
-                    temp3.insert(len(temp3),str(match.get_text(strip=True)[1:]).replace(',',''))
+                    temp3.insert(len(temp3),str(match.get_text(strip=True)).replace(',','').replace('$',''))
 
       for x in range (len(temp2)):
           if(temp2[x] != "0" and temp3[x] != "0"):

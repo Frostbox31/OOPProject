@@ -2,20 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime
 import mysql.connector
-import time
-from decimal import Decimal
-import sys
 import datetime 
 from collections import defaultdict
-
 
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  #password="F2814939p",
- 
+  password="F2814939p",
   database="DataProject"
 )
+
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -24,8 +20,6 @@ class Data:
           coin.volume = volume
           coin.open = open
           coin.close = close
-
-CalculateTime = Decimal(time.perf_counter())
 
 def sublink():
     
@@ -37,7 +31,7 @@ def sublink():
   request = requests.get('https://coingecko.com/',headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
   soup = BeautifulSoup(request.content, 'html.parser')
-
+    
   for match in soup.find_all('a', href=lambda value:value and value.startswith("/en/coins") and not value.endswith(tuple(endwith))): # Comment Link
             if "https://www.coingecko.com" + match['href'] + "/historical_data/usd?end_date="+ enddate + "&start_date=" + startdate not in output:
                 output.insert(0,"https://www.coingecko.com" + match['href'] + "/historical_data/usd?end_date="+ enddate + "&start_date=" + startdate)
@@ -53,7 +47,7 @@ def gethistoricaldataforallcoin():
   temp = []
   temp2 = []
 
-  for position in range(len(link)-90): #change this to get the number of coins,Currently 10 coins
+  for position in range(len(link)-99): #change this to get the number of coins,Currently 10 coins
     
       request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
 
@@ -166,14 +160,6 @@ def gettotalvolumefortheday():
     return str(totalvolume[0]).replace('(','').replace(')','').replace(',','')
 pass
 
-
-#totalvolume = gettotalvolumefortheday() example 
-#getdailyvolumeforallcoins()
-gethistoricaldataforallcoin()
-CalculateTime = Decimal(time.perf_counter()) - CalculateTime
-print(str(CalculateTime) + " Seconds")
-
-
 class data_manu:
      
     
@@ -181,8 +167,8 @@ class data_manu:
         self.mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        # password="F2814939p",
-        password="",
+         password="F2814939p",
+        #password="",
         database="Dataproject"
         )
 
@@ -351,9 +337,9 @@ class data_manu:
         #print(self.name_week)
         
 
-call = data_manu()    
-call.Query()
-call.weekly_Profit()
-call.monthly_Profit()
-call.yearly_Profit()
-call.Insert()
+#call = data_manu()    
+#call.Query()
+#call.weekly_Profit()
+#call.monthly_Profit()
+#call.yearly_Profit()
+#call.Insert()

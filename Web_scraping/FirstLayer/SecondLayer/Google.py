@@ -1,3 +1,4 @@
+from SecondLayer.Utilities import checkmonth, checkyear, _getrandomheader
 from numpy.random import random_integers
 import requests
 from bs4 import BeautifulSoup
@@ -7,7 +8,6 @@ from datetime import date
 import numpy as np
 from time import sleep
 import random
-from .Utilities import checkmonth, checkyear, _getrandomproxy
 
 
 mydb = mysql.connector.connect(
@@ -17,20 +17,15 @@ mydb = mysql.connector.connect(
   database="DataProject"
 )
 
-headers = {"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8 GTB7.1 (.NET CLR 3.5.30729)", "Referer": "http://example.com",'Connection':'close'}
-
-
 def getGoogleNew(topic):
     
-    #_getrandomproxy()
-
     url = 'https://www.google.com/search?q='+topic+'&tbm=nws'
     title = []
     link = []
     time = []
     number = 0
 
-    while number < 1: 
+    while number < 100: 
 
         delays = [7, 8, 10, 12]
         delay = np.random.choice(delays)
@@ -38,8 +33,6 @@ def getGoogleNew(topic):
 
         request = requests.get(url)
         soup = BeautifulSoup(request.content, 'html.parser')
-        request.close()
-        print(soup)
 
         for match in soup.find_all('div',class_='BNeawe vvjwJb AP7Wnd'):
             title.insert(len(title),match.text)
@@ -77,13 +70,15 @@ def getGoogleNew(topic):
         except:
             number = 100
     
+    print(str(topic).replace(" ",""))
+
     mycursor = mydb.cursor()
-    sql = "CREATE Table IF NOT EXISTS googlenews" + topic + " (id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;"
+    sql = "CREATE Table IF NOT EXISTS googlenews" + str(topic).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;"
     mycursor.execute(sql,'')
-    sql = "DELETE FROM googlenews" + topic
+    sql = "DELETE FROM googlenews" + str(topic).replace(" ","")
     mycursor.execute(sql,'')  
     for x in range (len(link)):
-        sql = "INSERT INTO Googlenews" + topic +" (id,Title, link, time) VALUES (%s,%s, %s, %s)"
+        sql = "INSERT INTO Googlenews" + str(topic).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)"
         val = (x+1,str(title[x]),str(link[x]),str(time[x]))
         mycursor.execute(sql, val)
 

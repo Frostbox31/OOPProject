@@ -4,7 +4,7 @@ from datetime import date, datetime
 import mysql.connector
 import datetime 
 from collections import defaultdict
-from SecondLayer.Utilities import commitsqlcommand
+from Utilities import commitsqlcommand
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -305,9 +305,9 @@ class data_manu:
         #print(self.name_week)
         
 
-#call = data_manu()    
-#call.Query()
-#call.weekly_Profit()
-#call.monthly_Profit()
-#call.yearly_Profit()
-#call.Insert()
+call = data_manu()    
+call.Query()
+call.weekly_Profit()
+call.monthly_Profit()
+call.yearly_Profit()
+call.Insert()

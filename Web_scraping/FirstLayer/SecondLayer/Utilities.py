@@ -3,6 +3,14 @@ import requests
 from bs4 import BeautifulSoup
 import random
 import sys
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="127.0.0.1",
+  user="root",
+  password="F2814939p",
+  database="DataProject"
+)
 
 proxieslist = [] # Will contain proxies [ip, port]
 
@@ -94,6 +102,27 @@ def _writefile(file):
     with open('test.txt', 'w') as f:
         sys.stdout = f # Change the standard output to the file we created.
         print(file)
+
+def commitsqlcommand(sqlparam,valparam):
+
+    mycursor = mydb.cursor()
+    sql = sqlparam
+    val = valparam
+    mycursor.execute(sql,val)  
+    
+    mydb.commit();
+pass
+
+def selectsqlcommand(sqlparam,valparam):
+
+    mycursor = mydb.cursor()
+    sql = sqlparam
+    val = valparam
+    mycursor.execute(sql,val)  
+    return  mycursor.fetchall()
+pass
+
+
 
 
     

@@ -8,11 +8,10 @@ import numpy as np
 
 CalculateTime = Decimal(time.perf_counter())
 
-#getdailyvolumeforallcoins()
+getdailyvolumeforallcoins()
 #gethistoricaldataforallcoin()
 
 def _GenerateGoogleNews():
-
     coinsname = getcoinsname()
     coinsname.insert(0,"cryptocurrency")
 

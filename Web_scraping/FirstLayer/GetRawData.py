@@ -22,6 +22,6 @@ def _GenerateGoogleNews():
         sleep(delay) 
         getGoogleNew(str(coinsname[x]).replace('(','').replace(')','').replace(',','').replace("'",'').replace("-"," "))
 
-_GenerateGoogleNews()
+#_GenerateGoogleNews()
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime
 print(str(CalculateTime) + " Seconds")

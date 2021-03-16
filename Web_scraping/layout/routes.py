@@ -3,40 +3,36 @@ from flask import render_template
 
 import mysql.connector
 
-mydb2 = mysql.connector.connect(
+mydb = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
     password="F2814939p",
     database="DataProject"
 )
 
-# prepare a cursor object using cursor() method
-cursor = mydb2.cursor()
+def getbtcnews():
+    try:
+        cursor = mydb.cursor()
+        sql = 'SELECT * FROM googlenewsbitcoin Order By Time'
+        cursor.execute(sql)
+        news = cursor.fetchall()
+        return news
+        mydb.close()
+    except:
+        print ("unable to connect to the bitcoin database")
+    mydb.close()
 
-sql = "SELECT * FROM coinvolume"
-clabels = []
-cvalues = []
-try:
-    # Execute the SQL command
-    cursor.execute(sql)
-    # Fetch all the rows in a list of lists.
-    results = cursor.fetchall()
-    # for i in range(0, 11):
-    count = 0
-    for row in results:
-        if count <= 10:
-            fname = row[1]
-            fvol = row[2]
-            # Now print fetched result
-            print("count = %d, fname = %s, fvol = %d \n" %
-                  (count, fname, fvol))
-            clabels.append(fname)
-            cvalues.append(fvol)
-            count += 1
-except:
-    print("Error: unable to fecth data")
-# disconnect from server
-mydb2.close()
+def getethnews():
+    try:
+        cursor = mydb.cursor()
+        sql = 'SELECT * FROM googlenewsethereum Order By Time'
+        cursor.execute(sql)
+        news = cursor.fetchall()
+        return news
+        mydb.close()
+    except:
+        print ("unable to connect to the ethereum database")
+    mydb.close()
 
 blabels = [
     'JAN', 'FEB', 'MAR', 'APR',
@@ -72,8 +68,8 @@ colors = [
 @app.route('/')
 @app.route('/dash')
 def dash():
-    line_labels = clabels
-    line_values = cvalues
+    line_labels = blabels
+    line_values = bvalues
     return render_template('index.html', title='Dashboard', max=99999999, labels=line_labels, values=line_values)
 
 
@@ -81,14 +77,16 @@ def dash():
 def bitcoin():
     line_labels = blabels
     line_values = bvalues
-    return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values)
+    news = getbtcnews()
+    return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values, news = news)
 
 
 @app.route('/ethereum')
 def ethereum():
     line_labels = tlabels
     line_values = tvalues
-    return render_template('index.html', title='Ethereum', max=17000, labels=line_labels, values=line_values)
+    news = getethnews()
+    return render_template('index.html', title='Ethereum', max=17000, labels=line_labels, values=line_values, news = news)
 
 
 @app.route('/home')

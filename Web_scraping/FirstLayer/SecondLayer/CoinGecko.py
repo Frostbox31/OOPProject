@@ -4,14 +4,7 @@ from datetime import date, datetime
 import mysql.connector
 import datetime 
 from collections import defaultdict
-
-mydb = mysql.connector.connect(
-  host="127.0.0.1",
-  user="root",
-  password="F2814939p",
-  database="DataProject"
-)
-
+from SecondLayer.Utilities import commitsqlcommand
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name
@@ -67,19 +60,11 @@ def gethistoricaldataforallcoin():
       for x in range(len(temp)):
           dataset.insert(len(dataset),Data(temp3,temp[x],temp2[inc],temp2[1+inc],temp2[2+inc],temp2[3+inc]))   
           inc += 4
-      
       temp.clear()
       temp2.clear()
-         
-  mycursor = mydb.cursor()
-  sql = 'DELETE FROM CoinGeckoData'
-  mycursor.execute(sql,'')  
+  commitsqlcommand('DELETE FROM CoinGeckoData','')
   for x in range(len(dataset)):
-    sql = 'INSERT INTO CoinGeckoData (Name, Date, MarketCap, Volume, Open, Close) VALUES (%s, %s, %s, %s, %s, %s)'
-    val = (str(dataset[x].name),str(dataset[x].date),str(dataset[x].marketcap),str(dataset[x].volume).replace('$',''),str(dataset[x].open),str(dataset[x].close))
-    mycursor.execute(sql, val)
-
-    mydb.commit()
+    commitsqlcommand('INSERT INTO CoinGeckoData (Name, Date, MarketCap, Volume, Open, Close) VALUES (%s, %s, %s, %s, %s, %s)',(str(dataset[x].name),str(dataset[x].date),str(dataset[x].marketcap),str(dataset[x].volume).replace('$',''),str(dataset[x].open),str(dataset[x].close)))
 pass
 
 def getdailyvolumeforallcoins():
@@ -131,22 +116,15 @@ def getdailyvolumeforallcoins():
           check -= 1
     pass
     
-    mycursor = mydb.cursor()
-    sql = 'DELETE FROM coinvolume'
-    mycursor.execute(sql,'')  
+    commitsqlcommand('DELETE FROM coinvolume','')
 
     totalvolume = 0
 
     for x in range(len(temp)):
-        sql = 'INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)'
-        val = (x+1,temp[x],(float(num[x])))
-        mycursor.execute(sql, val)
+        commitsqlcommand('INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)',(x+1,temp[x],(float(num[x]))))
         totalvolume += num[x]
     
-    sql = 'INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)'
-    val = (len(temp)+1,"Total Volume",float(totalvolume))
-    mycursor.execute(sql, val)
-    mydb.commit()
+    commitsqlcommand('INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)',(len(temp)+1,"Total Volume",float(totalvolume)))
 pass
 
 

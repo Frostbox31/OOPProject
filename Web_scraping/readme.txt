@@ -9,3 +9,14 @@
 #SELECT * FROM coingeckodata WHERE Name like '%ethereum%' AND (SELECT MAX(Date)) Limit 1
 
 select * from coingeckodata t join ( select name, max(date) as date from coingeckodata group by name) s on  s.name = t.name and s.date = t.date;
+
+#get second latest record in bitcoin
+#SELECT * FROM (SELECT t.*, ROW_NUMBER() OVER(ORDER BY Date DESC) AS RowNumber FROM dataproject.coingeckodata t) AS tmp WHERE RowNumber = 2 and Name LIKE '%bitcoin%';
+
+
+#SELECT * FROM dataproject.coingeckodata WHERE Date < ( SELECT MAX(Date) FROM dataproject.coingeckodata);
+#SELECT TOP (1) * FROM dataproject.coingeckodata WHERE Date < ( SELECT MAX(Date) FROM dataproject.coingeckodata) ORDER BY Date DESC;
+
+SELECT * FROM (SELECT t.*, ROW_NUMBER() OVER(ORDER BY Date DESC) AS RowNumber FROM dataproject.coingeckodata t) AS tmp WHERE RowNumber = 2;
+#SELECT * FROM coingeckodata WHERE Name like 'bitcoin' Order By Date DESC;
+#select * from coingeckodata t join ( select name, max(date) as date from coingeckodata group by name) s on  s.name = t.name and s.date = t.date;

@@ -34,6 +34,18 @@ def getethnews():
         print ("unable to connect to the ethereum database")
     mydb.close()
 
+#testing trendcheck
+# def trendcheck():
+#     try:
+#         cursor = mydb.cursor()
+#         sql = 'SELECT * FROM coingeckodata WHERE Name like "bitcoin" Order By Date DESC'
+#         cursor.execute(sql)
+#         trend = cursor.fetchall()
+#         mydb.close()
+#     except:
+#         print ("unable to connect to the ethereum database")
+#     mydb.close()
+    
 blabels = [
     'JAN', 'FEB', 'MAR', 'APR',
     'MAY', 'JUN', 'JUL', 'AUG',
@@ -78,7 +90,8 @@ def bitcoin():
     line_labels = blabels
     line_values = bvalues
     news = getbtcnews()
-    return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values, news = news)
+    trend = 'trending-down'
+    return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values, news = news, trend = trend)
 
 
 @app.route('/ethereum')

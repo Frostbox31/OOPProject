@@ -1,6 +1,6 @@
 {% extends 'layouts.html' %}
 
-{%block content%}
+{%block chart%}
     <canvas class="my-4 w-50" id="chart" width="1200" height="800"></canvas>
     <script>
 
@@ -57,13 +57,22 @@
       });
 
     </script>
-{%endblock content%}
+{%endblock chart%}
 
-{%block content2%}
+{%block newsfeed%}
     {% for row in news %}
         <tr>
             <td>{{row[1]}}</td>
             <td><a href="{{row[2]}}">{{row[2]}}</a></td>
         </tr>
     {% endfor %}
-{%endblock content2%}
+{%endblock newsfeed%}
+
+{%block barside%}
+    {% for row in news %}
+        <tr>
+            <td>{{row[1]}}</td>
+            <td><a href="{{row[2]}}">{{row[2]}}</a></td>
+        </tr>
+    {% endfor %}
+{%endblock barside%}

@@ -1,21 +1,12 @@
-from SecondLayer.Utilities import checkmonth, checkyear, _getrandomheader
+from SecondLayer.Utilities import checkmonth, checkyear, _getrandomheader, commitsqlcommand
 from numpy.random import random_integers
 import requests
 from bs4 import BeautifulSoup
-import mysql.connector
 import re
 from datetime import date
 import numpy as np
 from time import sleep
 import random
-
-
-mydb = mysql.connector.connect(
-  host="127.0.0.1",
-  user="root",
-  password="F2814939p",
-  database="DataProject"
-)
 
 def getGoogleNew(topic):
     
@@ -70,19 +61,11 @@ def getGoogleNew(topic):
         except:
             number = 100
     
-    print(str(topic).replace(" ",""))
+    commitsqlcommand("CREATE Table IF NOT EXISTS googlenews" + str(topic).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')
+    commitsqlcommand("DELETE FROM googlenews" + str(topic).replace(" ",""),'')
 
-    mycursor = mydb.cursor()
-    sql = "CREATE Table IF NOT EXISTS googlenews" + str(topic).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;"
-    mycursor.execute(sql,'')
-    sql = "DELETE FROM googlenews" + str(topic).replace(" ","")
-    mycursor.execute(sql,'')  
     for x in range (len(link)):
-        sql = "INSERT INTO Googlenews" + str(topic).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)"
-        val = (x+1,str(title[x]),str(link[x]),str(time[x]))
-        mycursor.execute(sql, val)
-
-    mydb.commit()
+        commitsqlcommand("INSERT INTO Googlenews" + str(topic).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)",(x+1,str(title[x]),str(link[x]),str(time[x])))
 pass
 
 

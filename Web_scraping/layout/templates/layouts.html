@@ -55,34 +55,34 @@
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('ethereum')}}">
                 Ethereum
-                <span data-feather="trending-up"></span>
+                <span data-feather="trending-up" style="color:rgb(1, 241, 1)"></span>
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{url_for('tether')}}">
                 Tether
                 <span data-feather="trending-down"></span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{url_for('cardano')}}">
                 Cardano
                 <span data-feather="trending-down"></span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{url_for('binance')}}">
                 Binance Coin
                 <span data-feather="trending-up"></span>
               </a>
             </li>
           </ul>
 
-          <!-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Annual Market Report</span>
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>CryptoCurrency Report</span>
             <a class="link-secondary" href="#" aria-label="Add a new report">
-              <span data-feather="plus-circle"></span>
+              <!-- <span data-feather="plus-circle"></span> -->
             </a>
           </h6>
           <ul class="nav flex-column mb-2">
@@ -104,7 +104,7 @@
                 Annual Report
               </a>
             </li>
-          </ul> -->
+          </ul>
         </div>
       </nav>
 
@@ -113,7 +113,14 @@
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Cryptocurrency Data Analysis</h1>
           <div class="btn-toolbar mb-2 mb-md-0">
-            <!-- <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            {%block  chartbtns%}
+            {%endblock chartbtns%}
+            <!-- <div class="btn-group me-2">
+              <a href="{{url_for('wkbitcoin')}}" class ="btn btn-sm btn-outline-secondary" role="button">Weekly</a>
+              <a href="{{url_for('monbitcoin')}}" class ="btn btn-sm btn-outline-secondary" role="button">Monthly</a>
+              <a href="{{url_for('bitcoin')}}" class ="btn btn-sm btn-outline-secondary" role="button">Yearly</a>
+            </div> -->
+            <!-- <button type="button" class="btn btn-sm btn-outline-secondary" href="{{url_for('ethereum')}}">
               <span data-feather="calendar"></span>
               This week
             </button> -->
@@ -121,8 +128,8 @@
         </div>
         <center>
           <h1>{{ title }}</h1>
-          {%block chart%}
-          {%endblock chart%}
+          {%block  wkchart%}
+          {%endblock wkchart%}
         </center>
         <h2>Latest {{ title }} News</h2>
         <div class="table-responsive">
@@ -137,111 +144,6 @@
             <tbody>
               {%block newsfeed%}
               {%endblock newsfeed%}
-              <!-- <tr>
-                <td>1,002</td>
-                <td>placeholder</td>
-                <td>irrelevant</td>
-                <td>visual</td>
-                <td>layout</td>
-              </tr>
-              <tr>
-                <td>1,003</td>
-                <td>data</td>
-                <td>rich</td>
-                <td>dashboard</td>
-                <td>tabular</td>
-              </tr>
-              <tr>
-                <td>1,003</td>
-                <td>information</td>
-                <td>placeholder</td>
-                <td>illustrative</td>
-                <td>data</td>
-              </tr>
-              <tr>
-                <td>1,004</td>
-                <td>text</td>
-                <td>random</td>
-                <td>layout</td>
-                <td>dashboard</td>
-              </tr>
-              <tr>
-                <td>1,005</td>
-                <td>dashboard</td>
-                <td>irrelevant</td>
-                <td>text</td>
-                <td>placeholder</td>
-              </tr>
-              <tr>
-                <td>1,006</td>
-                <td>dashboard</td>
-                <td>illustrative</td>
-                <td>rich</td>
-                <td>data</td>
-              </tr>
-              <tr>
-                <td>1,007</td>
-                <td>placeholder</td>
-                <td>tabular</td>
-                <td>information</td>
-                <td>irrelevant</td>
-              </tr>
-              <tr>
-                <td>1,008</td>
-                <td>random</td>
-                <td>data</td>
-                <td>placeholder</td>
-                <td>text</td>
-              </tr>
-              <tr>
-                <td>1,009</td>
-                <td>placeholder</td>
-                <td>irrelevant</td>
-                <td>visual</td>
-                <td>layout</td>
-              </tr>
-              <tr>
-                <td>1,010</td>
-                <td>data</td>
-                <td>rich</td>
-                <td>dashboard</td>
-                <td>tabular</td>
-              </tr>
-              <tr>
-                <td>1,011</td>
-                <td>information</td>
-                <td>placeholder</td>
-                <td>illustrative</td>
-                <td>data</td>
-              </tr>
-              <tr>
-                <td>1,012</td>
-                <td>text</td>
-                <td>placeholder</td>
-                <td>layout</td>
-                <td>dashboard</td>
-              </tr>
-              <tr>
-                <td>1,013</td>
-                <td>dashboard</td>
-                <td>irrelevant</td>
-                <td>text</td>
-                <td>visual</td>
-              </tr>
-              <tr>
-                <td>1,014</td>
-                <td>dashboard</td>
-                <td>illustrative</td>
-                <td>rich</td>
-                <td>data</td>
-              </tr>
-              <tr>
-                <td>1,015</td>
-                <td>random</td>
-                <td>tabular</td>
-                <td>information</td>
-                <td>text</td>
-              </tr> -->
             </tbody>
           </table>
         </div>

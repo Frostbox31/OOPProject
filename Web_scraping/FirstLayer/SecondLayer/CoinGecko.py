@@ -1,10 +1,10 @@
+from SecondLayer.Utilities import commitsqlcommand
 import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime
 import mysql.connector
 import datetime 
 from collections import defaultdict
-from Utilities import commitsqlcommand
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
           coin.name = name

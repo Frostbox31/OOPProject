@@ -10,8 +10,10 @@ mydb = mysql.connector.connect(
     database="DataProject"
 )
 
+
 def getbtcnews():
     try:
+        print("db connected")
         cursor = mydb.cursor()
         sql = 'SELECT * FROM googlenewsbitcoin Order By Time'
         cursor.execute(sql)
@@ -19,11 +21,13 @@ def getbtcnews():
         return news
         mydb.close()
     except:
-        print ("unable to connect to the bitcoin database")
+        print("unable to connect to the bitcoin database")
     mydb.close()
+
 
 def getethnews():
     try:
+        print("db connected")
         cursor = mydb.cursor()
         sql = 'SELECT * FROM googlenewsethereum Order By Time'
         cursor.execute(sql)
@@ -31,20 +35,31 @@ def getethnews():
         return news
         mydb.close()
     except:
-        print ("unable to connect to the ethereum database")
+        print("unable to connect to the ethereum database")
     mydb.close()
 
-#testing trendcheck
-# def trendcheck():
-#     try:
-#         cursor = mydb.cursor()
-#         sql = 'SELECT * FROM coingeckodata WHERE Name like "bitcoin" Order By Date DESC'
-#         cursor.execute(sql)
-#         trend = cursor.fetchall()
-#         mydb.close()
-#     except:
-#         print ("unable to connect to the ethereum database")
-#     mydb.close()
+# testing trendcheck
+
+
+def trendcheck():
+    ldate = []
+    lvalue = []
+    try:
+        cursor = mydb.cursor()
+        # sql = 'SELECT * FROM coingeckodata WHERE Name like "bitcoin" Order By Date DESC'
+        # sql = 'SELECT * FROM dataproject.coingeckodata AS t1 WHERE EXISTS(SELECT * FROM dataproject.coingeckodata AS t2 WHERE  t2.Name=t1.NameAND t2.Open > t1.Open) Order By Date DESC'
+        sql = 'SELECT * FROM coingeckodata ORDER BY Date DESC'
+        cursor.execute(sql)
+        trend = cursor.fetchmany(size = 2)
+        for row in trend:
+            ldate.append = row[1]
+            lvalue.append = row[2]
+        if lvalue[0] < lvalue[1]:
+            return('%d < %d', lvalue[0], lvalue[1])
+        mydb.close()
+    except:
+        print ("unable to connect to the ethereum database")
+    mydb.close()
     
 blabels = [
     'JAN', 'FEB', 'MAR', 'APR',
@@ -90,6 +105,7 @@ def bitcoin():
     line_labels = blabels
     line_values = bvalues
     news = getbtcnews()
+    trendcheck()
     trend = 'trending-down'
     return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values, news = news, trend = trend)
 

@@ -8,7 +8,8 @@ import mysql.connector
 mydb = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  password="F2814939p",
+  #password="F2814939p",
+  password="",
   database="DataProject"
 )
 

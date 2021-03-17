@@ -10,7 +10,6 @@ mydb = mysql.connector.connect(
     database="DataProject"
 )
 
-
 def getbtcnews():
     try:
         print("db connected")
@@ -105,7 +104,7 @@ def bitcoin():
     line_labels = blabels
     line_values = bvalues
     news = getbtcnews()
-    trendcheck()
+    #trendcheck()
     trend = 'trending-down'
     return render_template('index.html', title='Bitcoin', max=17000, labels=line_labels, values=line_values, news = news, trend = trend)
 

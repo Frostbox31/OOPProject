@@ -1,16 +1,14 @@
-from SecondLayer.Utilities import checkmonth, checkyear, _getrandomheader, commitsqlcommand
-from numpy.random import random_integers
+from SecondLayer.Utilities import *
 import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import date
 import numpy as np
 from time import sleep
-import random
 
-def getGoogleNew(topic):
+def getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
     
-    url = 'https://www.google.com/search?q='+topic+'&tbm=nws'
+    url = 'https://www.google.com/search?q='+coinname+'&tbm=nws'
     title = []
     link = []
     time = []
@@ -33,6 +31,7 @@ def getGoogleNew(topic):
                 if('support.google.com' not in match['href'] and 'accounts.google.com' not in match['href']):
                     link.insert(len(link),match['href'].replace('/url?q=','').split('&sa')[0])
 
+        #Convert the years/month/days/hours/mins into seconds
         for match in soup.find_all('span',class_='r0bn4c rQMQod'):
             if 'sec' in match.get_text(strip=True):
                 convert = int(re.sub('[^0-9]','', match.text))
@@ -50,22 +49,22 @@ def getGoogleNew(topic):
                 convert = int(re.sub('[^0-9]','', match.text))*7*24*60*60
                 time.insert(len(time),convert)
             elif 'month' in match.get_text(strip=True):
-                convert = int(re.sub('[^0-9]','', match.text))*checkmonth(date.today().month)*24*60*60
+                convert = int(re.sub('[^0-9]','', match.text))*checkMonth(date.today().month)*24*60*60
                 time.insert(len(time),convert)
             elif 'year' in match.get_text(strip=True):
-                convert = int(re.sub('[^0-9]','', match.text))*checkyear(date.today().year)*24*60*60
+                convert = int(re.sub('[^0-9]','', match.text))*checkYear(date.today().year)*24*60*60
                 time.insert(len(time),convert)
         try:
             url = "https://www.google.com" + soup.find(attrs={"aria-label": 'Next page'})['href'];
             number += 1
-        except:
+        except: #If it fail to find the next page of the Google News, it end the loop
             number = 100
     
-    commitsqlcommand("CREATE Table IF NOT EXISTS googlenews" + str(topic).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')
-    commitsqlcommand("DELETE FROM googlenews" + str(topic).replace(" ",""),'')
+    _commitSQLcommand("CREATE Table IF NOT EXISTS googlenews" + str(coinname).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')
+    _commitSQLcommand("DELETE FROM googlenews" + str(coinname).replace(" ",""),'')
 
     for x in range (len(link)):
-        commitsqlcommand("INSERT INTO Googlenews" + str(topic).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)",(x+1,str(title[x]),str(link[x]),str(time[x])))
+        _commitSQLcommand("INSERT INTO Googlenews" + str(coinname).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)",(x+1,str(title[x]),str(link[x]),str(time[x])))
 pass
 
 

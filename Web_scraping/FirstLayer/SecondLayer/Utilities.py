@@ -5,46 +5,45 @@ import random
 import sys
 import mysql.connector
 
-mydb = mysql.connector.connect(
+db = mysql.connector.connect(
   host="127.0.0.1",
   user="root",
-  #password="F2814939p",
-  password="",
+  password="F2814939p",
+  #password="",
   database="DataProject"
 )
 
 proxieslist = [] # Will contain proxies [ip, port]
 
-def checkmonth(month):
+def checkMonth(month): #Check the days in the month
     if month == 1 or month == 3 or month == 5 or month == 7 or month == 8 or month == 10 or month == 12:
         return 30
     else :
         return 31
+pass
 
-def checkyear(year):
+def checkYear(year): # Check for leap year
     if year % 4 == 0 :
         return 366
     else :
         return 365
+pass
 
-def _getrandomproxy():
+def _getRandomProxy(): #Provide free Proxies for Web Scrapping to prevent detection from the parties
 
-    Hypertext = ["https"]
-
-    proxies_req = requests.get('https://www.sslproxies.org/')
-    soup = BeautifulSoup(proxies_req.content, 'html.parser')
+    Hypertext = ["https","http"]
+    request = requests.get('https://www.sslproxies.org/')
+    soup = BeautifulSoup(request.content, 'html.parser')
     proxies_table = soup.find(id='proxylisttable')
 
     for row in proxies_table.tbody.find_all('tr'):
         proxy = random.choice(Hypertext);
-        proxieslist.append({
-        proxy: proxy+'://'+row.find_all('td')[0].string + ":"+ row.find_all('td')[1].string,
-    })
+        proxieslist.append({proxy: proxy+'://'+row.find_all('td')[0].string + ":"+ row.find_all('td')[1].string,})
 
     return proxieslist
 pass
 
-def _getrandomheader():
+def _getRandomHeader(): #Provide Headers for Web Scrapping to prevent detection from the parties
 
     headers_list = [
     # Firefox 77 Mac
@@ -98,29 +97,28 @@ def _getrandomheader():
     }
     ]
     return random.choice(headers_list)
+pass
 
-def _writefile(file):
+def _writeFile(file): #Write into a Text File
     with open('test.txt', 'w') as f:
         sys.stdout = f # Change the standard output to the file we created.
         print(file)
-
-def commitsqlcommand(sqlparam,valparam):
-
-    mycursor = mydb.cursor()
-    sql = sqlparam
-    val = valparam
-    mycursor.execute(sql,val)  
-    
-    mydb.commit();
 pass
 
-def selectsqlcommand(sqlparam,valparam):
+def _commitSQLCommand(sqlParam,valParam): #Insert,Delete,Update SQL 
+    cursor = db.cursor()
+    sql = sqlParam
+    val = valParam
+    cursor.execute(sql,val)  
+    db.commit();
+pass
 
-    mycursor = mydb.cursor()
+def _selectSQLCommand(sqlparam,valParam): #Retrieve data from SQL
+    cursor = db.cursor()
     sql = sqlparam
-    val = valparam
-    mycursor.execute(sql,val)  
-    return  mycursor.fetchall()
+    val = valParam
+    cursor.execute(sql,val)  
+    return  cursor.fetchall()
 pass
 
 

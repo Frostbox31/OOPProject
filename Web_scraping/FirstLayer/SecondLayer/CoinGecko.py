@@ -77,6 +77,7 @@ def getdailyvolumeforallcoins():
 
     temp = []
     num = []
+    temp4 = []
     pagenumber = 1
     check = pagenumber
 
@@ -89,6 +90,9 @@ def getdailyvolumeforallcoins():
 
       for match in soup.find_all(class_="d-none d-lg-block font-bold"):
           temp.insert(len(temp),match.get_text(strip=True))
+      
+      for match in soup.find_all(class_="d-none d-lg-inline font-normal text-3xs mt-1"):
+          temp4.insert(len(temp4),str(match.get_text(strip=True)).encode('cp1252', errors='ignore'))
 
       for match in soup.find_all(class_="td-total_volume lit text-right px-0 pl-2"):
           if match.get_text(strip=True) == "$0.00000000" or match.get_text(strip=True) == "?" :
@@ -103,7 +107,7 @@ def getdailyvolumeforallcoins():
                     temp3.insert(len(temp3),"0")
                 else:
                     temp3.insert(len(temp3),str(match.get_text(strip=True)).replace(',','').replace('$',''))
-
+          
       for x in range (len(temp2)):
           if(temp2[x] != "0" and temp3[x] != "0"):
              num.insert(len(num),float(temp2[x])//float(temp3[x]))
@@ -117,15 +121,17 @@ def getdailyvolumeforallcoins():
           check -= 1
     pass
     
-    commitsqlcommand('DELETE FROM coinvolume','')
+    print(len(temp4))
+    print(len(temp))
 
+    commitsqlcommand('DELETE FROM coinvolume','')
     totalvolume = 0
 
     for x in range(len(temp)):
-        commitsqlcommand('INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)',(x+1,temp[x],(float(num[x]))))
+        commitsqlcommand('INSERT INTO coinvolume VALUES (%s,%s, %s, %s)',(x+1,temp[x],(float(num[x])),temp4[x]))
         totalvolume += num[x]
     
-    commitsqlcommand('INSERT INTO coinvolume (Id,Name,Volume) VALUES (%s,%s, %s)',(len(temp)+1,"Total Volume",float(totalvolume)))
+    commitsqlcommand('INSERT INTO coinvolume VALUES (%s,%s, %s,%s)',(len(temp)+1,"Total Volume",float(totalvolume),'C'))
 pass
 
 

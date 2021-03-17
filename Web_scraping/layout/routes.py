@@ -38,8 +38,6 @@ def getethnews():
     mydb.close()
 
 # testing trendcheck
-
-
 def trendcheck():
     ldate = []
     lvalue = []

@@ -9,6 +9,10 @@ def getcoinsname():
     return selectsqlcommand('SELECT DISTINCT name FROM coingeckodata','')
 pass
 
+def getcoinsshortform():
+    return selectsqlcommand('SELECT Shortform FROM coinvolume LIMIT 10','')
+pass
+
 def GetProfit():
     call = data_manu()    
     call.Query()

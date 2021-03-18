@@ -126,13 +126,15 @@
             </button> -->
           </div>
         </div>
+        
         <center>
           <h1>{{ title }}</h1>
           {%block  wkchart%}
           {%endblock wkchart%}
         </center>
+        
         <h2>Latest {{ title }} News</h2>
-        <div class="table-responsive">
+        <div class="table-responsive" style="height: 400px;overflow:auto;">
           <table class="table table-striped table-sm">
             <thead>
               <tr>
@@ -145,6 +147,7 @@
               {%block newsfeed%}
               {%endblock newsfeed%}
             </tbody>
+            </div>
           </table>
         </div>
       </main>

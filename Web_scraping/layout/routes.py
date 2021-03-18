@@ -88,6 +88,7 @@ def getwkbtcchart():
     cvalues = []
     count = 0
     cmax = 0
+    cmin = 0
     sql = "SELECT * FROM weeklyprofit WHERE Name like 'bitcoin' Order By Date DESC"
     #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
     # sql = "SELECT * FROM coinvolume"
@@ -96,7 +97,7 @@ def getwkbtcchart():
     try:
         for row in chart:
             fname = row[1]
-            fvol = row[2]
+            fvol = row[3]
             # Now print fetched result
             print("fname = %s, fvol = %d \n" %
                   (fname, fvol))
@@ -106,7 +107,8 @@ def getwkbtcchart():
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
-        return clabels, cvalues, cmax
+        cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
     except:
         print("Error: unable to fecth data")
 
@@ -638,12 +640,12 @@ def bitcoin():
 
 @app.route('/wkbitcoin')
 def wkbitcoin():
-    line_labels, line_values, cmax = getwkbtcchart()
+    line_labels, line_values, cmax, cmin = getwkbtcchart()
     news = getbtcnews()
     wkbtc = '/wkbitcoin'
     monbtc = '/monbitcoin'
     yrbtc = '/bitcoin'
-    return render_template('index.html', title='Bitcoin', max=cmax, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title='Bitcoin', max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/monbitcoin')

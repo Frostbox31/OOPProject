@@ -35,13 +35,13 @@ def _getHistoricalDataForAllCoin(): # Get Cryptocurrency MarketCap,Volume, Openi
 
   link = __sublink()
   dataset =  []
-  date = []
-  coindata = []
-
   proxy = _getRandomProxy()
 
-  for position in range(len(link)-90): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
-    
+  for position in range(len(link)-98): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
+      
+      date = []
+      coindata = []
+
       request = requests.get(link[99-position],proxies=random.choice(proxy),headers=_getRandomHeader())
 
       coinname = link[99-position].split("/")[5]

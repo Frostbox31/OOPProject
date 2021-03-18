@@ -26,10 +26,10 @@ def _generateYahooFinanceTopComment():
     for x in range (len(coinsname)):   
         getYahooFinanceComment(str(coinsname[x]).replace('(','').replace(')','').replace(',','').replace("'",'').replace("-"," "),str(coinshortform[x]).replace('(','').replace(')','').replace(',','').replace("'",'').replace("DOT",'DOT1'))
 
-#_getDailyVolumeForAllCoins() #Get Cryptocurrency Trading Volume Each Day
-_getHistoricalDataForAllCoin() #Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
-#_generateGoogleNews() #Get Cryptocurrency and Top 10 Coins Google News
+_getDailyVolumeForAllCoins() #Get Cryptocurrency Trading Volume Each Day
+#_getHistoricalDataForAllCoin() #Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
 #_generateYahooFinanceTopComment() # Get Cryptocurrency people comment from Yahoo Finance
+#_generateGoogleNews() #Get Cryptocurrency and Top 10 Coins Google News
 
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime # Calculate the difference between the time
 print(str(CalculateTime) + " Seconds") #Display the time taken for the program to run

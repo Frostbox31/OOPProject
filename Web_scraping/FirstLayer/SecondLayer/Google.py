@@ -7,7 +7,7 @@ import numpy as np
 from time import sleep
 import random
 
-def getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
+def _getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
     
     url = 'https://www.google.com/search?q='+coinname+'&tbm=nws'
     title = []

@@ -19,8 +19,7 @@ def gettopchart():
     count = 0
     cmax = 0
     sql = "SELECT DISCTINT FROM weeklyprofit Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
@@ -34,13 +33,13 @@ def gettopchart():
                 clabels.append(fname)
                 cvalues.append(fvol)
                 count += 1
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
         return clabels, cvalues, cmax
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def gettopnews():
@@ -62,20 +61,14 @@ def getyrbtcchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM yearlyprofit WHERE Name like 'bitcoin' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -83,7 +76,7 @@ def getyrbtcchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getwkbtcchart():
@@ -93,20 +86,14 @@ def getwkbtcchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM weeklyprofit WHERE Name like 'bitcoin' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -124,20 +111,14 @@ def getmbtcchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM monthlyprofit WHERE Name like 'bitcoin' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -145,7 +126,7 @@ def getmbtcchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getbtcnews():
@@ -160,14 +141,25 @@ def getbtcnews():
     mydb.close()
 
 
+def getbtccomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommentbitcoin GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the bitcoin database")
+    mydb.close()
+
+
 def sample():
     clabels = []
     cvalues = []
     count = 0
     cmax = 0
     sql = "SELECT * FROM yearlyprofit WHERE Name like 'ethereum' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
@@ -181,13 +173,13 @@ def sample():
                 clabels.append(fname)
                 cvalues.append(fvol)
                 count += 1
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
         return clabels, cvalues, cmax
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getyrethchart():
@@ -197,20 +189,14 @@ def getyrethchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM yearlyprofit WHERE Name like 'ethereum' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -218,7 +204,7 @@ def getyrethchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getwkethchart():
@@ -228,20 +214,14 @@ def getwkethchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM weeklyprofit WHERE Name like 'ethereum' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -249,7 +229,7 @@ def getwkethchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getmethchart():
@@ -259,20 +239,14 @@ def getmethchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM monthlyprofit WHERE Name like 'ethereum' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -280,7 +254,7 @@ def getmethchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getethnews():
@@ -294,6 +268,16 @@ def getethnews():
         print("unable to connect to the ethereum database")
     mydb.close()
 
+def getethcomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommentethereum GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the ethereum database")
+    mydb.close()
 
 def getyrtetchart():
     clabels = []
@@ -302,20 +286,14 @@ def getyrtetchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM yearlyprofit WHERE Name like 'tether' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -323,7 +301,7 @@ def getyrtetchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getwktetchart():
@@ -333,20 +311,17 @@ def getwktetchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM weeklyprofit WHERE Name like 'tether' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
+
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -354,7 +329,7 @@ def getwktetchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def getmtetchart():
@@ -364,20 +339,17 @@ def getmtetchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM monthlyprofit WHERE Name like 'tether' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
+
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -385,7 +357,7 @@ def getmtetchart():
             cmin = min(cvalues)
         return clabels, cvalues, cmax, cmin
     except:
-        print("Error: unable to fecth data")
+        print("Error: unable to fetch data")
 
 
 def gettetnews():
@@ -399,6 +371,16 @@ def gettetnews():
         print("unable to connect to the tether database")
     mydb.close()
 
+def gettetcomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommenttether GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the tether database")
+    mydb.close()
 
 def getyrcarchart():
     clabels = []
@@ -407,20 +389,17 @@ def getyrcarchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM yearlyprofit WHERE Name like 'cardano' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
+
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -438,20 +417,17 @@ def getwkcarchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM weeklyprofit WHERE Name like 'cardano' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
+
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -461,6 +437,7 @@ def getwkcarchart():
     except:
         print("Error: unable to fetch data")
 
+
 def getmcarchart():
     clabels = []
     cvalues = []
@@ -468,20 +445,17 @@ def getmcarchart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM monthlyprofit WHERE Name like 'cardano' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
+
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
+
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
+
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -503,6 +477,16 @@ def getcarnews():
         print("unable to connect to the cardano database")
     mydb.close()
 
+def getcarcomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommentcardano GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the cardano database")
+    mydb.close()
 
 def getyrbinancechart():
     clabels = []
@@ -511,20 +495,14 @@ def getyrbinancechart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM yearlyprofit WHERE Name like 'binance-coin' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -542,20 +520,14 @@ def getwkbinancechart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM weeklyprofit WHERE Name like 'binance-coin' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -573,20 +545,14 @@ def getmbinancechart():
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM monthlyprofit WHERE Name like 'binance-coin' Order By Date DESC"
-    #sql2 = "SELECT MAX(Price) FROM dataproject.monthlyprofit WHERE Name like 'bitcoin'"
-    # sql = "SELECT * FROM coinvolume"
     cursor.execute(sql)
     chart = cursor.fetchall()
     try:
         for row in chart:
             fname = row[1]
             fvol = row[3]
-            # Now print fetched result
-            print("fname = %s, fvol = %d \n" %
-                  (fname, fvol))
             clabels.append(fname)
             cvalues.append(fvol)
-        print(clabels, cvalues)
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -608,9 +574,113 @@ def getbinancenews():
         print("unable to connect to the binance database")
     mydb.close()
 
+def getbinancecomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommentbinancecoin GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the binance coin database")
+    mydb.close()
 
-# testing trendcheck
+def getyrpolkadotchart():
+    clabels = []
+    cvalues = []
+    count = 0
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM yearlyprofit WHERE Name like 'polkadot' Order By Date DESC"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[1]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
 
+
+def getwkpolkadotchart():
+    clabels = []
+    cvalues = []
+    count = 0
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM weeklyprofit WHERE Name like 'polkadot' Order By Date DESC"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[1]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
+def getmpolkadotchart():
+    clabels = []
+    cvalues = []
+    count = 0
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM monthlyprofit WHERE Name like 'polkadot' Order By Date DESC"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[1]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
+def getpolkadotnews():
+    try:
+        sql = 'SELECT * FROM googlenewspolkadot Order By Time'
+        cursor.execute(sql)
+        news = cursor.fetchall()
+        return news
+        mydb.close()
+    except:
+        print("unable to connect to the polkadot database")
+    mydb.close()
+
+def getpolkadotcomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommentpolkadot GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the polkadot database")
+    mydb.close()
 
 def trendcheck():
     ldate = []
@@ -670,172 +740,241 @@ def dash():
     return render_template('index.html', title='Top 10 coins', max=cmax, labels=line_labels, values=line_values)
 
 
+@app.route('/home')
+def homepage():
+    return render_template('homepage.html', title='homepage')
+
+
 @app.route('/')
 @app.route('/bitcoin')
 def bitcoin():
     line_labels, line_values, cmax, cmin = getyrbtcchart()
     news = getbtcnews()
-    title = "Bitcoin Yearly Data"
+    comments = getbtccomment()
+    title = "Bitcoin"
+    title2 = "Yearly Data"
     wkbtc = '/wkbitcoin'
     monbtc = '/monbitcoin'
     yrbtc = '/bitcoin'
-    return render_template('index.html', title=title, max=cmax, min = cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/wkbitcoin')
 def wkbitcoin():
     line_labels, line_values, cmax, cmin = getwkbtcchart()
     news = getbtcnews()
-    title = "Bitcoin Weekly Data"
+    comments = getbtccomment()
+    title = "Bitcoin"
+    title2 = "Weekly Data"
     wkbtc = '/wkbitcoin'
     monbtc = '/monbitcoin'
     yrbtc = '/bitcoin'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/monbitcoin')
 def monbitcoin():
     line_labels, line_values, cmax, cmin = getmbtcchart()
     news = getbtcnews()
-    title = "Bitcoin Monthly Data"
+    comments = getbtccomment()
+    title = "Bitcoin"
+    title2 = "Monthly Data"
     wkbtc = '/wkbitcoin'
     monbtc = '/monbitcoin'
     yrbtc = '/bitcoin'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/ethereum')
 def ethereum():
     line_labels, line_values, cmax, cmin = getyrethchart()
     news = getethnews()
-    title = "Ethereum Yearly Data"
+    comments = getethcomment()
+    title = "Ethereum"
+    title2 = "Yearly Data"
     wkbtc = '/wkethereum'
     monbtc = '/monethereum'
     yrbtc = '/ethereum'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/wkethereum')
 def wkethereum():
     line_labels, line_values, cmax, cmin = getwkethchart()
     news = getethnews()
-    title = "Ethereum Weekly Data"
+    comments = getethcomment()
+    title = "Ethereum"
+    title2 = "Weekly Data"
     wkbtc = '/wkethereum'
     monbtc = '/monethereum'
     yrbtc = '/ethereum'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/monethereum')
 def monethereum():
     line_labels, line_values, cmax, cmin = getmethchart()
     news = getethnews()
-    title = "Ethereum Monthly Data"
+    comments = getethcomment()
+    title = "Ethereum"
+    title2 = "Monthly Data"
     wkbtc = '/wkethereum'
     monbtc = '/monethereum'
     yrbtc = '/ethereum'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/tether')
 def tether():
     line_labels, line_values, cmax, cmin = getyrethchart()
     news = gettetnews()
-    title = "Tether Yearly Data"
+    comments = gettetcomment()
+    title = "Tether"
+    title2 = "Yearly Data"
     wkbtc = '/wktether'
     monbtc = '/montether'
     yrbtc = '/tether'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/wktether')
 def wktether():
     line_labels, line_values, cmax, cmin = getwkethchart()
     news = gettetnews()
-    title = "Tether Weekly Data"
+    comments = gettetcomment()
+    title = "Tether"
+    title2 = "Weekly Data"
     wkbtc = '/wktether'
     monbtc = '/montether'
     yrbtc = '/tether'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/montether')
 def montether():
     line_labels, line_values, cmax, cmin = getmethchart()
     news = gettetnews()
-    title = "Tether Monthly Data"
+    comments = gettetcomment()
+    title = "Tether"
+    title2 = "Monthly Data"
     wkbtc = '/wktether'
     monbtc = '/montether'
     yrbtc = '/tether'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/cardano')
 def cardano():
     line_labels, line_values, cmax, cmin = getyrcarchart()
     news = getcarnews()
-    title = "Cardano Yearly Data"
+    comments = getcarcomment()
+    title = "Cardano"
+    title2 = "Yearly Data"
     wkbtc = '/wkcardano'
     monbtc = '/moncardano2'
     yrbtc = '/cardano'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/wkcardano')
 def wkcardano():
     line_labels, line_values, cmax, cmin = getwkcarchart()
     news = getcarnews()
-    title = "Cardano Weekly Data"
+    comments = getcarcomment()
+    title = "Cardano"
+    title2 = "Weekly Data"
     wkbtc = '/wkcardano'
     monbtc = '/moncardano2'
     yrbtc = '/cardano'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/moncardano2')
 def moncardano2():
     line_labels, line_values, cmax, cmin = getmcarchart()
     news = getcarnews()
-    title = "Cardano Monthly Data"
+    comments = getcarcomment()
+    title = "Cardano"
+    title2 = "Monthly Data"
     wkbtc = '/wkcardano'
     monbtc = '/moncardano2'
     yrbtc = '/cardano'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/binance')
 def binance():
     line_labels, line_values, cmax, cmin = getyrbinancechart()
     news = getbinancenews()
-    title = "Binance Coin Yearly Data"
+    comments = getbinancecomment()
+    title = "Binance Coin"
+    title2 = "Yearly Data"
     wkbtc = '/wkbinance'
     monbtc = '/monbinance'
     yrbtc = '/binance'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/wkbinance')
 def wkbinance():
     line_labels, line_values, cmax, cmin = getwkbinancechart()
     news = getbinancenews()
-    title = "Binance Coin Weekly Data"
+    comments = getbinancecomment()
+    title = "Binance Coin"
+    title2 = "Weekly Data"
     wkbtc = '/wkbinance'
     monbtc = '/monbinance'
     yrbtc = '/binance'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/monbinance')
 def moncardano():
     line_labels, line_values, cmax, cmin = getmbinancechart()
     news = getbinancenews()
-    title = "Binance Coin Monthly Data"
+    comments = getbinancecomment()
+    title = "Binance Coin"
+    title2 = "Monthly Data"
     wkbtc = '/wkbinance'
     monbtc = '/monbinance'
     yrbtc = '/binance'
-    return render_template('index.html', title=title, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
-@app.route('/home')
-def homepage():
-    return render_template('homepage.html', title='homepage')
+@app.route('/polkadot')
+def polkadot():
+    line_labels, line_values, cmax, cmin = getyrpolkadotchart()
+    news = getpolkadotnews()
+    comments = getpolkadotcomment()
+    title = "Polkadot"
+    title2 = "Yearly Data"
+    wkbtc = '/wkpolkadot'
+    monbtc = '/monpolkadot'
+    yrbtc = '/polkadot'
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+
+@app.route('/wkpolkadot')
+def wkpolkadot():
+    line_labels, line_values, cmax, cmin = getwkpolkadotchart()
+    news = getpolkadotnews()
+    comments = getpolkadotcomment()
+    title = "Polkadot"
+    title2 = "Weekly Data"
+    wkbtc = '/wkpolkadot'
+    monbtc = '/monpolkadot'
+    yrbtc = '/polkadot'
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+
+@app.route('/monpolkadot')
+def monpolkadot():
+    line_labels, line_values, cmax, cmin = getmpolkadotchart()
+    news = getpolkadotnews()
+    comments = getpolkadotcomment()
+    title = "Polkadot"
+    title2 = "Monthly Data"
+    wkbtc = '/wkpolkadot'
+    monbtc = '/monpolkadot'
+    yrbtc = '/polkadot'
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)

@@ -1,5 +1,11 @@
 {% extends 'layouts.html' %}
 
+{%block marqueebar%}
+{% for row in trends %}
+  {{row[0]}} ${{row[1]}} &emsp;
+{% endfor %}
+{%endblock marqueebar%}
+
 {%block chartbtns%}
 <div class="btn-group me-2">
   <a href="{{wkbtc}}" class ="btn btn-sm btn-outline-secondary" role="button">Weekly</a>
@@ -9,7 +15,7 @@
 {%endblock chartbtns%}
 
 {%block wkchart%}
-<canvas class="my-4 w-90" id="chart" width="1100" height="300"></canvas>
+<canvas class="my-4 w-90" id="chart" width="1100" height="400"></canvas>
 <script>
   // bar chart data
   var lineData = {
@@ -50,7 +56,7 @@
 
   max = {{ max }}
   min = {{ min }}
-  steps = 5
+  steps = 9
   // draw bar chart
   var LineChartDemo = new Chart(mychart).Line(lineData, {
     scaleOverride: true,
@@ -87,12 +93,3 @@
 </tr>
 {% endfor %}
 {%endblock comments%}
-
-{%block barside%}
-{% for row in news %}
-<tr>
-  <td>{{row[1]}}</td>
-  <td><a href="{{row[2]}}">{{row[2]}}</a></td>
-</tr>
-{% endfor %}
-{%endblock barside%}

@@ -1,0 +1,62 @@
+{% extends 'dash.html' %}
+
+{%block marqueebar%}
+{% for row in trends %}
+  {{row[0]}} ${{row[1]}} &emsp;
+{% endfor %}
+{%endblock marqueebar%}
+
+{%block wkchart%}
+<canvas class="my-4 w-90" id="chart" width="1100" height="300"></canvas>
+<script>
+    // bar chart data
+    var barData = {
+      labels : [
+        {% for item in labels %}
+         "{{ item }}",
+        {% endfor %}
+  ],
+  
+      datasets : [{
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        data : [
+          {% for item in values %}
+             "{{ item }}",
+            {% endfor %}
+      ]
+        }
+      ]
+    }
+  
+   // get bar chart canvas
+   var mychart = document.getElementById("chart").getContext("2d");
+  
+      max = {{ max }}
+      min = {{ min }}
+      steps = 5
+   // draw bar chart
+   new Chart(mychart).Bar(barData, {
+     scaleOverride: true,
+     scaleSteps: steps,
+     scaleStepWidth: Math.ceil(max / steps),
+     scaleStartValue: 0,
+     scaleShowVerticalLines: true,
+     scaleShowGridLines : true,
+     barShowStroke : true,
+     scaleShowLabels: true
+     }
+   );
+  
+  </script>
+{%endblock wkchart%}
+
+{%block newsfeed%}
+{% for row in news %}
+<tr>
+  <td>{{row[1]}}</td>
+  <td style="word-wrap: break-word;min-width: 100px; max-width: 450px;"><a href="{{row[2]}}">{{row[2]}}</a></td>
+</tr>
+{% endfor %}
+{%endblock newsfeed%}

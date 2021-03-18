@@ -19,8 +19,9 @@ def __sublink(): #Get Cryptocurrency Link
   enddate = date.today().strftime("%Y-%m-%d")
   startdate = "2010-01-01"
   endwith = ["compare","trending","high_volume","all","recently_added"]
-    
-  request = requests.get('https://coingecko.com/',headers={'User-agent': 'Super Bot Power Level Over 9000'})
+  proxy = _getRandomProxy()
+  
+  request = requests.get('https://coingecko.com/',proxies=random.choice(proxy),headers=_getRandomHeader())
 
   soup = BeautifulSoup(request.content, 'html.parser')
     

@@ -62,6 +62,7 @@
     barShowStroke : true,
     scaleShowLabels: true,
     bezierCurve: false,
+
   });
 
 </script>
@@ -76,6 +77,14 @@
 {% endfor %}
 {%endblock newsfeed%}
 
+{%block comments%}
+{% for row in news %}
+<tr>
+  <td>{{row[1]}}</td>
+  <td><a href="{{row[2]}}">{{row[2]}}</a></td>
+</tr>
+{% endfor %}
+{%endblock comments%}
 
 {%block barside%}
 {% for row in news %}

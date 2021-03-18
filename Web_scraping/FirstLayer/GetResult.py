@@ -7,11 +7,17 @@ def getTotalVolumeForTheDay(): # Return the Total number of volume cryptocurrenc
 pass
 
 def getCoinsName(): # Get The Top 10 Coins Name
-    return _selectSQLCommand('SELECT DISTINCT name FROM coingeckodata','')
+    coinsname = _selectSQLCommand('SELECT DISTINCT name FROM coingeckodata','')
+    for x in range (len(coinsname)):
+        coinsname[x] = str(coinsname[x]).replace('(','').replace(')','').replace(',','').replace("'",'').replace("-"," ");        
+    return coinsname
 pass
 
 def getCoinsShortForm(): # Get The Top 10 Coins ShortForm
-    return _selectSQLCommand('SELECT Shortform FROM coinvolume LIMIT 10','')
+    shortform = _selectSQLCommand('SELECT Shortform FROM coinvolume LIMIT 10','')
+    for x in range (len(shortform)):
+        shortform[x] = str(shortform[x]).replace('(','').replace(')','').replace(',','').replace("'",'')       
+    return shortform
 pass
 
 def GetProfit():

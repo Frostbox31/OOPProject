@@ -9,13 +9,13 @@ class yahooComment:
           user.dislike = dislike
           user.replies = replies
 
-def getYahooFinanceComment(coinname,coin): #Get Cryptocurrency people comment from Yahoo Finance
+def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency people comment from Yahoo Finance
     
     proxy = _getRandomProxy()
     count = 30;
     dataset = []
     check = 0
-    while len(dataset) < 100 and check != 1: #Change the number to get the desired number of comments
+    while len(dataset) < numberofcomment and check != 1: #Change the number to get the desired number of comments
         link = "https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+coin+"_CCC;count=30;lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
         request = requests.get(link,proxies=random.choice(proxy),headers=_getRandomHeader())
 
@@ -35,6 +35,7 @@ def getYahooFinanceComment(coinname,coin): #Get Cryptocurrency people comment fr
 
         link ="https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+ coin+ "_CCC;count=30;" + "v%3D" + nextpage[0][15:-32] +  "%3As%3D" + nextpage[0][19:-22] + "%3Asl%3D" + nextpage[0][30:-8] +  "%3Aoff%3D" + str(count) + ";lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
         count += 30
+    pass
 
     _commitSQLCommand("CREATE Table IF NOT EXISTS yahoocomment" + str(coinname).replace(" ","") + "(id int NOT NULL AUTO_INCREMENT,comment varchar(10000) DEFAULT NULL,thumbup int DEFAULT NULL,thumbdown int DEFAULT NULL,reply int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1021 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')
     _commitSQLCommand("DELETE FROM yahoocomment" + str(coinname).replace(" ",""),'')

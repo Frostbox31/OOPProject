@@ -9,7 +9,7 @@
 {%endblock chartbtns%}
 
 {%block wkchart%}
-<canvas class="my-4 w-80" id="chart" width="1100" height="300"></canvas>
+<canvas class="my-4 w-90" id="chart" width="1100" height="300"></canvas>
 <script>
   // bar chart data
   var lineData = {
@@ -48,8 +48,8 @@
   // get bar chart canvas
   var mychart = document.getElementById("chart").getContext("2d");
 
-  steps = 10
   max = {{ max }}
+  steps = 5
   // draw bar chart
   var LineChartDemo = new Chart(mychart).Line(lineData, {
     scaleOverride: true,

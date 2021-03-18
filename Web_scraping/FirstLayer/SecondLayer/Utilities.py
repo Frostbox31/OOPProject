@@ -31,7 +31,7 @@ pass
 
 def _getRandomProxy(): #Provide free Proxies for Web Scrapping to prevent detection from the parties
 
-    Hypertext = ["https","http"]
+    Hypertext = ["http"]
     request = requests.get('https://www.sslproxies.org/')
     soup = BeautifulSoup(request.content, 'html.parser')
     proxies_table = soup.find(id='proxylisttable')
@@ -45,55 +45,45 @@ pass
 
 def _getRandomHeader(): #Provide Headers for Web Scrapping to prevent detection from the parties
 
+    #User-Agent                 = 
+    #DNT                        =   0 allow to be track by the target site, 1 does not allow to be track by the target site,
+    #Accept                     =   It specific what type of content to be accept
+    #Accept - Language          =   State the language that allow the application to understand while request
+    #Accept - Encoding          =   It compression the algorithm and allow to understand
+    #Referer                    =   It stated the website that previously visit before the request
+    #Connection                 =   It stated whether the network should be closed or open
+    #Upgrade-Insecure-Requests  =   It Encrypted and authenticated the response
+    
+
     headers_list = [
     # Firefox 77 Mac
      {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Referer": "https://www.google.com/",
+        "Referer": "https://www.google.com.sg/",
         "DNT": "1",
-        "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1"
     },
     # Firefox 77 Windows
     {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Referer": "https://www.google.com/",
+        "Referer": "https://www.google.com.my/",
         "DNT": "1",
-        "Connection": "keep-alive",
         "Upgrade-Insecure-Requests": "1"
     },
     # Chrome 83 Mac
     {
-        "Connection": "keep-alive",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36",
+        "Referer": "https://www.google.com.tw/",
         "DNT": "1",
         "Upgrade-Insecure-Requests": "1",
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Dest": "document",
-        "Referer": "https://www.google.com/",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8"
+
     },
     # Chrome 83 Windows 
     {
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Sec-Fetch-Site": "same-origin",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-User": "?1",
-        "Sec-Fetch-Dest": "document",
-        "Referer": "https://www.google.com/",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9"
+        "Referer": "https://www.google.com.jp/",
+        "DNT": "1",
+        "Upgrade-Insecure-Requests": "1",
     }
     ]
     return random.choice(headers_list)

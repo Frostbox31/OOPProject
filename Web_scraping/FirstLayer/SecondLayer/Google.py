@@ -1,10 +1,11 @@
-from SecondLayer.Utilities import *
+from SecondLayer.Utilities import _commitSQLCommand, _getRandomProxy,checkMonth,checkYear,_getRandomHeader
 import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import date
 import numpy as np
 from time import sleep
+import random
 
 def getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
     
@@ -13,6 +14,7 @@ def getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
     link = []
     time = []
     number = 0
+    proxy = _getRandomProxy()
 
     while number < 100: 
 
@@ -20,7 +22,7 @@ def getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
         delay = np.random.choice(delays)
         sleep(delay)
 
-        request = requests.get(url)
+        request = requests.get(url,proxies=random.choice(proxy),headers=_getRandomHeader())
         soup = BeautifulSoup(request.content, 'html.parser')
 
         for match in soup.find_all('div',class_='BNeawe vvjwJb AP7Wnd'):
@@ -60,11 +62,11 @@ def getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
         except: #If it fail to find the next page of the Google News, it end the loop
             number = 100
     
-    _commitSQLcommand("CREATE Table IF NOT EXISTS googlenews" + str(coinname).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')
-    _commitSQLcommand("DELETE FROM googlenews" + str(coinname).replace(" ",""),'')
+    _commitSQLCommand("CREATE Table IF NOT EXISTS googlenews" + str(coinname).replace(" ","") + "(id integer NOT NULL AUTO_INCREMENT,Title varchar(200) DEFAULT NULL,Link varchar(500) DEFAULT NULL,Time int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')
+    _commitSQLCommand("DELETE FROM googlenews" + str(coinname).replace(" ",""),'')
 
     for x in range (len(link)):
-        _commitSQLcommand("INSERT INTO Googlenews" + str(coinname).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)",(x+1,str(title[x]),str(link[x]),str(time[x])))
+        _commitSQLCommand("INSERT INTO Googlenews" + str(coinname).replace(" ","") +" (id,Title, link, time) VALUES (%s,%s, %s, %s)",(x+1,str(title[x]),str(link[x]),str(time[x])))
 pass
 
 

@@ -1,7 +1,8 @@
-from SecondLayer.Utilities import _commitSQLCommand
+from SecondLayer.Utilities import _commitSQLCommand, _getRandomHeader, _getRandomProxy
 import requests
 from bs4 import BeautifulSoup
 from datetime import date
+import random
 
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
@@ -36,9 +37,11 @@ def _getHistoricalDataForAllCoin(): # Get Cryptocurrency MarketCap,Volume, Openi
   date = []
   coindata = []
 
+  proxy = _getRandomProxy()
+
   for position in range(len(link)-90): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
     
-      request = requests.get(link[99-position],headers={'User-agent': 'Super Bot Power Level Over 9000'})
+      request = requests.get(link[99-position],proxies=random.choice(proxy),headers=_getRandomHeader())
 
       coinname = link[99-position].split("/")[5]
 
@@ -70,10 +73,12 @@ def _getDailyVolumeForAllCoins(): # Get Cryptocurrency Trading Volume Each Day
     pagenumber = 1
     check = pagenumber
 
+    proxy = _getRandomProxy()
+
     while pagenumber == check:
       coinvolumeprice = []
       coinprice = []
-      request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers={'User-agent': 'Super Bot Power Level Over 9000'})
+      request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),proxies=random.choice(proxy),headers=_getRandomHeader())
 
       soup = BeautifulSoup(request.content, 'html.parser')
 

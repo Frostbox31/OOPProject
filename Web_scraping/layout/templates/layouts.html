@@ -24,7 +24,7 @@
     <marquee>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="#">Bitcoin</a>
+          <a class="nav-link" href="#">{{title}} &emsp; {{title2}} &emsp; {{title2}}</a>
         </li>
       </ul>
     </marquee>
@@ -78,7 +78,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('binance')}}">
+              <a class="nav-link" href="{{url_for('polkadot')}}">
                 Polkadot
                 <span data-feather="trending-up"></span>
               </a>
@@ -158,18 +158,18 @@
         </div>
         
         <center>
-          <h1>{{ title }}</h1>
+          <h1>{{ title }} {{ title2 }}</h1>
           {%block  wkchart%}
           {%endblock wkchart%}
         </center>
         
         <h2>Latest {{ title }} News</h2>
         <div class="table-responsive" style="height: 400px;overflow:auto;">
-          <table class="table table-striped table-sm">
+          <table class="table table-striped table-hover table-bordered table-sm">
             <thead>
               <tr>
-                <th>News</th>
-                <th>Links</th>
+                <th style="word-wrap: break-word;min-width: 400px; max-width: 400px;">News</th>
+                <th style="word-wrap: break-word;min-width: 100px; max-width: 200px;">Links</th>
 
               </tr>
             </thead>
@@ -180,6 +180,25 @@
             </div>
           </table>
         </div>
+        <br>
+        <h2>Latest {{ title }} Comments</h2>
+        <div class="table-responsive" style="height: 400px;overflow:auto;">
+          <table class="table table-striped table-hover table-bordered table-sm">
+            <thead>
+              <tr>
+                <th style="word-wrap: break-word;min-width: 400px; max-width: 400px;">World's Comment</th>
+                <th>Positive Rating</th>
+                <th>Negative Rating</th>
+                <th>No. Response</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {%block comments%}
+              {%endblock comments%}
+            </tbody>
+            </div>
+          </table>
       </main>
     </div>
   </div>

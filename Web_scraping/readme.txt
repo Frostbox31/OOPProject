@@ -16,6 +16,7 @@
 # pip install numpy
 # pip install beautifulsoup4
 # pip install regex
+# pip install request
 # test run, must be in web_scraping directory and (venv), then type python run.py
 
 #.env file PYTHONPATH="C:/Users/Frostty/Documents/School/PythonProject/Web_scraping/FirstLayer" change to your path and open the web_scraping folder in visual studio

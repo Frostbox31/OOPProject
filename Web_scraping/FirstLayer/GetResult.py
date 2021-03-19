@@ -32,7 +32,7 @@ def GetProfit():
     call.avg_week_profit()
     call.InsertBarProfit()
 
-GetProfit()
+#GetProfit()
 
 
 

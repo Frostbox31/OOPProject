@@ -861,19 +861,112 @@ def getuniswapcomment():
         print("unable to connect to the uniswap database")
     mydb.close()
 
+def getyrlitecoinchart():
+    clabels = []
+    cvalues = []
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM yearlyprofit WHERE Name like 'litecoin' Order By Date DESC"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[1]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
 
-colors = [
-    "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-    "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-    "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
+
+def getwklitecoinchart():
+    clabels = []
+    cvalues = []
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM weeklyprofit WHERE Name like 'litecoin' Order By Date DESC"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[1]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) <= 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
+def getmlitecoinchart():
+    clabels = []
+    cvalues = []
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM monthlyprofit WHERE Name like 'litecoin' Order By Date DESC"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[1]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
+def getlitecoinnews():
+    try:
+        sql = 'SELECT * FROM googlenewslitecoin Order By Time'
+        cursor.execute(sql)
+        news = cursor.fetchall()
+        return news
+        mydb.close()
+    except:
+        print("unable to connect to the litecoin database")
+    mydb.close()
+
+
+def getlitecoincomment():
+    try:
+        sql = 'SELECT MIN(comment) AS comment, thumbup, thumbdown, reply FROM yahoocommentlitecoin GROUP BY comment Order By thumbup DESC'
+        cursor.execute(sql)
+        comments = cursor.fetchall()
+        return comments
+        mydb.close()
+    except:
+        print("unable to connect to the litecoin database")
+    mydb.close()
 
 
 @app.route('/dash2')
 def dash2():
-    line_labels, line_values, cmax = getmbtcchart()
-    return render_template('index.html', title='Top 10 coins', max=cmax, labels=line_labels, values=line_values)
+    line_labels, line_values, cmax, cmin = gettopchart()
+    news = gettopnews()
+    title = "dash 2"
+    title2 = "test only"
+    return render_template('testindex.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends)
 
 
+@app.route('/')
 @app.route('/dash')
 def dash():
     line_labels, line_values, cmax, cmin = gettopchart()
@@ -883,12 +976,6 @@ def dash():
     return render_template('dash-2.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends)
 
 
-@app.route('/home')
-def homepage():
-    return render_template('homepage.html', title='homepage')
-
-
-@app.route('/')
 @app.route('/bitcoin')
 def bitcoin():
     line_labels, line_values, cmax, cmin = getyrbtcchart()
@@ -1198,4 +1285,43 @@ def monuniswap():
     wkbtc = '/wkuniswap'
     monbtc = '/monuniswap'
     yrbtc = '/uniswap'
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, trends=trends, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+
+@app.route('/litecoin')
+def litecoin():
+    line_labels, line_values, cmax, cmin = getyrlitecoinchart()
+    news = getlitecoinnews()
+    comments = getlitecoincomment()
+    title = "litecoin"
+    title2 = "Yearly Data"
+    wkbtc = '/wklitecoin'
+    monbtc = '/monlitecoin'
+    yrbtc = '/litecoin'
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, trends=trends, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+
+@app.route('/wklitecoin')
+def wklitecoin():
+    line_labels, line_values, cmax, cmin = getwklitecoinchart()
+    news = getlitecoinnews()
+    comments = getlitecoincomment()
+    title = "litecoin"
+    title2 = "Weekly Data"
+    wkbtc = '/wklitecoin'
+    monbtc = '/monlitecoin'
+    yrbtc = '/litecoin'
+    return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, trends=trends, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+
+@app.route('/monlitecoin')
+def monlitecoin():
+    line_labels, line_values, cmax, cmin = getmlitecoinchart()
+    news = getlitecoinnews()
+    comments = getlitecoincomment()
+    title = "litecoin"
+    title2 = "Monthly Data"
+    wkbtc = '/wklitecoin'
+    monbtc = '/monlitecoin'
+    yrbtc = '/litecoin'
     return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, trends=trends, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)

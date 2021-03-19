@@ -3,6 +3,8 @@
 import mysql.connector
 import datetime 
 from collections import defaultdict
+from dateutil.relativedelta import relativedelta
+
 
 
 class data_manu:
@@ -12,8 +14,8 @@ class data_manu:
         self.mydb = mysql.connector.connect(
         host="127.0.0.1",
         user="root",
-        password="F2814939p",
-        #password="",
+        #password="F2814939p",
+        password="",
         database="Dataproject"
         )
 
@@ -46,110 +48,232 @@ class data_manu:
             val = (self.name_year[x],self.dates_year_list[x],self.year_price[x],self.yearly_profit_list[x])
             cur.execute(sql, val)
         self.mydb.commit()
-          
+
+
+    def InsertBarProfit(self):
+        cur = self.mydb.cursor()
+        cur.execute('DELETE FROM barweeklyprofit')
+        cur.execute('DELETE FROM barmonthlyprofit')
+        cur.execute('DELETE FROM baryearlyprofit')
+        for x in range(len(self.week_profit_avg)):
+            sql = "INSERT INTO barweeklyprofit (Name,StartD,EndD,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.week_coins[x],self.week_start_date,self.week_end_date,self.week_profit_avg[x])
+            cur.execute(sql, val)
+        self.mydb.commit()
+        for x in range(len(self.month_profit_avg)):
+            sql = "INSERT INTO barmonthlyprofit (Name,StartD,EndD,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.month_coins[x],self.month_start_date,self.month_end_date,self.month_profit_avg[x])
+            cur.execute(sql, val)
+        self.mydb.commit()
+        for x in range(len(self.year_profit_avg)):
+            sql = "INSERT INTO baryearlyprofit (Name,StartD,EndD,Profit) VALUES (%s,%s,%s,%s)"
+            val = (self.year_coins[x],self.year_start_date,self.year_end_date,self.year_profit_avg[x])
+            cur.execute(sql, val)
+        self.mydb.commit()
+
+        # print(self.year_profit_avg)
+        # print(self.year_coins)
 
     def yearly_Profit(self):
-        year_delta = datetime.timedelta(days=365)
-        day_delta = datetime.timedelta(days=1)
+        #year_delta = datetime.timedelta(days=365)
+        year_delta = relativedelta(years=1)    #now only compare 1 years
+        day_delta = datetime.timedelta(days=2)
         year_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
         year_start_date = year_end_date - year_delta
         cur = self.mydb.cursor()
         cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [year_start_date,year_end_date]) 
-        self.year_result = cur.fetchall()        
+        self.year_result = cur.fetchall()   
+        self.year_list = self.cal_profit_dict(self.year_result)
+        self.yearly_profit_list,self.year_price,self.dates_year_list,self.name_year = self.year_list     
         #for name in self.year_result:
             #print(name)
-        year_arr = list(item for item in self.year_result)
-        #print(month_arr)
-        year_dict = defaultdict(list)
-        self.year_price=[]
-        self.dates_year_list=[]
-        self.name_year =[]
-        self.yearly_profit_list=[]
-        for k,*v in year_arr:
-            year_dict[k].append(v)
-        #print(dict(month_dict))
-        for key,value in year_dict.items():
-            #print(key,week_dict[key])
-            #today_price_list.append(value[0][1])
-            for item in year_dict[key]:
-                item[1] = item[1][1:] #remove '$'
-                item[1] = item[1].replace(',', '')
-                #print(value[0][1],key)
-                today_price = value[0][1]
-                #print(today_price)
-                profit = ((float(today_price) - float(item[1])) /float(today_price)) *100
-                #print(profit)
-                self.yearly_profit_list.append(profit)
-                #print(key, item[0], item[1])
-                self.year_price.append(item[1])
-                self.dates_year_list.append(item[0])
-                self.name_year.append(key)
-
         #print(self.year_price)  
         #print(self.yearly_profit_list)      
         #print(self.dates_year_list)
         #print(self.name_year)
+        #print(self.year_list)
+
+    def avg_year_profit(self):
+        year_delta = relativedelta(years=1)    #now only compare 1 years
+        day_delta = datetime.timedelta(days=2)
+        self.year_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
+        self.year_start_date = self.year_end_date - year_delta
+        # print(year_end_date.year)
+        # print(year_start_date.year)
+        cur = self.mydb.cursor()
+        cur.execute("SELECT Name,Date,Profit from yearlyprofit WHERE Date BETWEEN %s AND %s", [self.year_start_date,self.year_end_date]) 
+        self.year_profit = cur.fetchall()
+        self.year__avgplist = self.avg_dict(self.year_profit)
+        # for name in self.year_result:
+        #       print(name)
+        self.year_profit_avg,self.year_coins = self.year__avgplist
+        
+        # print(self.year_profit_avg)
+        # print(self.year_coins)
+
+
+    def avg_dict(self,arr):
+        avg_arr = list(item for item in arr)
+        #print(avg_arr)
+        avg_dict = defaultdict(list)
+        sum =0
+        coins_profit_list = []
+        total_profit_list =[]
+        for k,*v in avg_arr:
+            avg_dict[k].append(v)
+        #print(dict(avg_dict))
+        self.keys_list =[key for key in avg_dict.keys()] # getting types of keys/coins
+        #print(self.keys_list)   # insert into new avg_year_profit table
+        # total =[item for item in avg_dict.values()]
+        # print(total)
+        # no_of_coins = (len(avg_dict.keys()))
+        for key,value in avg_dict.items(): # iterating each key
+            #print(key,avg_dict[key])
+            num_days =(len(avg_dict[key])) # finding number of days each coin has
+            #print(num_days)
+            for item in avg_dict[key]:
+                #print(item[1])
+                coins_profit_list.append(item[1]) # append each profit to new list for summation
+            count =0 
+            while count<num_days:                #summating profit for each key/coin
+                for profit in coins_profit_list:
+                        sum = profit+ sum
+                        count=count+1
+            total_profit_list.append(sum)
+        self.avg_profit =list((x/num_days)for x in total_profit_list) # getting avg profit for each summation
+        #print(self.avg_profit)     # insert into new avg_year_profit table
+            
+         
+        #print(self.week_price)  
+        #print(self.weekly_profit_list)      
+        #print(self.dates_week_list)
+        #print(profit_list)
+
+        #print(total_profit_list)
+        return self.avg_profit,self.keys_list
 
 
 
     def monthly_Profit(self): #past 30 days
         month_delta = datetime.timedelta(weeks=4)
-        day_delta = datetime.timedelta(days=1)
+        day_delta = datetime.timedelta(days=2)
         month_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
         month_start_date = month_end_date - month_delta 
         cur = self.mydb.cursor()
         cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [month_start_date,month_end_date]) 
-        self.month_result = cur.fetchall()        
-        #for name in self.month_result:
-            #print(name)
-
-        month_arr = list(item for item in self.month_result)
-        #print(month_arr)
-        month_dict = defaultdict(list)
-        self.month_price=[]
-        self.dates_month_list=[]
-        self.name_month =[]
-        self.monthly_profit_list=[]
-        for k,*v in month_arr:
-            month_dict[k].append(v)
-        #print(dict(month_dict))
-        for key,value in month_dict.items():
-            #print(key,week_dict[key])
-            #today_price_list.append(value[0][1])
-            for item in month_dict[key]:
-                item[1] = item[1][1:] #remove '$'
-                item[1] = item[1].replace(',', '')
-                #print(value[0][1],key)
-                today_price = value[0][1]
-                #print(today_price)
-                profit = ((float(today_price) - float(item[1])) /float(today_price)) *100
-                #print(profit)
-                self.monthly_profit_list.append(profit)
-                #print(key, item[0], item[1])
-                self.month_price.append(item[1])
-                self.dates_month_list.append(item[0])
-                self.name_month.append(key)
-
+        self.month_result = cur.fetchall() 
+        self.month_list = self.cal_profit_dict(self.month_result)
+        self.monthly_profit_list,self.month_price,self.dates_month_list,self.name_month = self.month_list        
         #print(self.month_price)  
         #print(self.monthly_profit_list)      
         #print(self.dates_month_list)
         #print(self.name_month)
 
-    
+    def avg_month_profit(self):
+        month_delta = relativedelta(months=1)    #now only compare 1 month
+        day_delta = datetime.timedelta(days=2)
+        self.month_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
+        self.month_start_date = self.month_end_date - month_delta
+        #print(month_end_date.month)
+        #print(month_start_date.month)
+        cur = self.mydb.cursor()
+        cur.execute("SELECT Name,Date,Profit from monthlyprofit WHERE Date BETWEEN %s AND %s", [self.month_start_date,self.month_end_date]) 
+        self.month_profit = cur.fetchall()
+        self.month__avgplist = self.avg_dict(self.month_profit)
+        # for name in self.month_result:
+        #       print(name) 
+        self.month_profit_avg,self.month_coins = self.month__avgplist
+        # print(self.month_profit_avg)
+        # print(self.month_coins)
 
-    def weekly_Profit(self):
+    def weekly_Profit(self): #past 30 days
         week_delta = datetime.timedelta(weeks=1)
-        day_delta = datetime.timedelta(days=1)
+        day_delta = datetime.timedelta(days=2)
         week_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
-        week_start_date = week_end_date - week_delta
-        #self.week_start_date = week_start_date.strftime("%Y-%m-%d")
-        #self.week_end_date = week_end_date.strftime("%Y-%m-%d")  
+        week_start_date = week_end_date - week_delta 
         cur = self.mydb.cursor()
         cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week_start_date,week_end_date]) 
-        self.week_result = cur.fetchall()        
-        #for name in self.week_result:
-            #print(name)
-        week_arr = list(item for item in self.week_result)
+        self.week_result = cur.fetchall() 
+        self.week_list = self.cal_profit_dict(self.week_result)
+        self.weekly_profit_list,self.week_price,self.dates_week_list,self.name_month = self.month_list        
+        #print(self.month_price)  
+        #print(self.monthly_profit_list)      
+        #print(self.dates_month_list)
+        #print(self.name_month)
+
+    def avg_week_profit(self):
+        week_delta = relativedelta(weeks=1)    #now only compare 1 week
+        day_delta = datetime.timedelta(days=2)
+        self.week_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
+        self.week_start_date = self.week_end_date - week_delta
+        #print(week_end_date.day)
+        #print(week_start_date.day)
+        cur = self.mydb.cursor()
+        cur.execute("SELECT Name,Date,Profit from weeklyprofit WHERE Date BETWEEN %s AND %s", [self.week_start_date,self.week_end_date]) 
+        self.week_profit = cur.fetchall()
+        self.week__avgplist = self.avg_dict(self.week_profit)
+        # for name in self.month_result:
+        #       print(name) 
+        self.week_profit_avg,self.week_coins = self.week__avgplist
+        # print(self.week_profit_avg)
+        # print(self.week_coins)    
+
+    
+
+    # def l_weekly_Profit(self):
+    #     week_delta = datetime.timedelta(weeks=1)
+    #     day_delta = datetime.timedelta(days=2)  # 2 days as if market reset at 12pm, ytd's date is still N/A
+    #     week_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
+    #     week_start_date = week_end_date - week_delta
+    #     week3_end_date = week_start_date - day_delta 
+    #     #self.week_start_date = week_start_date.strftime("%Y-%m-%d")
+    #     #self.week_end_date = week_end_date.strftime("%Y-%m-%d")  
+    #     cur = self.mydb.cursor()
+    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week_start_date,week_end_date]) 
+    #     self.week_result = cur.fetchall()
+    #     week3_start_date = week_start_date - week_delta
+    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week3_start_date,week3_end_date]) 
+    #     self.week3_result = cur.fetchall()
+    #     week2_end_date = week3_start_date - day_delta
+    #     week2_start_date = week3_start_date - week_delta
+    #     cur = self.mydb.cursor()
+    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week2_start_date,week2_end_date]) 
+    #     self.week2_result = cur.fetchall()
+    #     week1_end_date = week2_start_date - day_delta
+    #     week1_start_date = week2_start_date - week_delta
+    #     cur = self.mydb.cursor()
+    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week1_start_date,week1_end_date]) 
+    #     self.week1_result = cur.fetchall()     
+    #     # for name in self.week_result:            # can delete this when finish
+    #     #      print(name)
+    #     # for name in self.week3_result:
+    #     #     print(name)
+    #     # for name in self.week2_result:
+    #     #     print(name)
+    #     # for name in self.week1_result:
+    #     #     print(name)
+    #     self.week4_list = self.cal_profit_dict(self.week_result)
+    #     self.week4_profit,self.week4_price,self.week4_date,self.week4_name = self.week4_list
+    #     #self.week4_sprofit_list = self.final_weeks_profit(self.week4_list)
+    #     # self.week3_profit_list = self.weekly_dict(self.week3_result)
+    #     # self.week2_profit_list = self.weekly_dict(self.week2_result)
+    #     # self.week1_profit_list = self.weekly_dict(self.week1_result)
+        
+    #     # print(self.week_price)  
+    #     # print(self.weekly_profit_list)      
+    #     # print(self.dates_week_list)
+    #     #print(self.week4_list)
+    #     # print(week4_date)
+    #     # print(week4_profit)
+    #     # print(week4_name)
+    #     # print(week4_price)
+    #     # print(self.week3_profit_list)
+    #     # print(self.week2_profit_list)
+    #     # print(self.week1_profit_list)
+
+
+    def cal_profit_dict(self,arr):
+        week_arr = list(item for item in arr)
         #print(week_arr)
         week_dict = defaultdict(list)
         self.week_price=[]
@@ -175,17 +299,27 @@ class data_manu:
                 self.week_price.append(item[1])
                 self.dates_week_list.append(item[0])
                 self.name_week.append(key)
-    
+        
         #print(self.week_price)  
         #print(self.weekly_profit_list)      
         #print(self.dates_week_list)
-        #print(self.name_week)
-        
+        # print(self.name_week)
+        return self.weekly_profit_list,self.week_price,self.dates_week_list,self.name_week
+    
+    
+    
+
+
+ 
 #gethistoricaldataforallcoin()
 
 call = data_manu()    
 call.Query()
-call.weekly_Profit()
+#call.weekly_Profit()
 call.monthly_Profit()
 call.yearly_Profit()
 call.Insert()
+call.avg_year_profit()
+call.avg_month_profit()
+call.avg_week_profit()
+call.InsertBarProfit()

@@ -10,12 +10,14 @@ class yahooComment:
 
 def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency people comment from Yahoo Finance
     
+    numberoftimes = numberofcomment / 30
     count = 30;
     dataset = []
     check = 0
+    counter = 0
     link = "https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+coin+"_CCC;count=30;lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
 
-    while len(dataset) < numberofcomment and check != 1: #Change the number to get the desired number of comments
+    while counter < numberoftimes and check != 1: #Change the number to get the desired number of comments
         request = requests.get(link,headers=_getRandomHeader())
 
         #Find the specified sentence/number/word by using regex expressions
@@ -36,6 +38,7 @@ def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency 
         if len(nextpage) !=  0:
             link ="https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+ coin+ "_CCC;count=30;" + "index=v%3D" + nextpage[0][15:-32] +  "%3As%3D" + nextpage[0][19:-22] + "%3Asl%3D" + nextpage[0][30:-8] +  "%3Aoff%3D" + str(count) + ";lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
         count += 30
+        counter += 1
     pass
 
     _commitSQLCommand("CREATE Table IF NOT EXISTS yahoocomment" + str(coinname).replace(" ","") + "(id int NOT NULL AUTO_INCREMENT,comment varchar(10000) DEFAULT NULL,thumbup int DEFAULT NULL,thumbdown int DEFAULT NULL,reply int DEFAULT NULL,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1021 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",'')

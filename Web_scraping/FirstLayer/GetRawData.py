@@ -1,6 +1,5 @@
 
 from SecondLayer.Google import *
-from SecondLayer.CoinGecko import *
 from SecondLayer.Reddit import _getRedditCoinOccur
 from SecondLayer.CoinGecko import _getHistoricalDataForAllCoin,_getDailyVolumeForAllCoins
 from GetResult import getCoinsName, getCoinsShortForm

@@ -13,11 +13,12 @@
 # run .\venv\Scripts\activate |after u activate, your starting instead of drive C:, it will show (venv)
 # pip install flask
 # pip install mysql-connector-python
+# pip install numpy
+# pip install beautifulsoup4
+# pip install regex
 # test run, must be in web_scraping directory and (venv), then type python run.py
 
-
-
-
+#.env file PYTHONPATH="C:/Users/Frostty/Documents/School/PythonProject/Web_scraping/FirstLayer" change to your path and open the web_scraping folder in visual studio
 
 
 
@@ -37,3 +38,7 @@ select * from coingeckodata t join ( select name, max(date) as date from coingec
 SELECT * FROM (SELECT t.*, ROW_NUMBER() OVER(ORDER BY Date DESC) AS RowNumber FROM dataproject.coingeckodata t) AS tmp WHERE RowNumber = 2;
 #SELECT * FROM coingeckodata WHERE Name like 'bitcoin' Order By Date DESC;
 #select * from coingeckodata t join ( select name, max(date) as date from coingeckodata group by name) s on  s.name = t.name and s.date = t.date;
+
+
+
+ 

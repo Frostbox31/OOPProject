@@ -15,7 +15,7 @@ cursor = mydb.cursor()
 
 def getalltrend():
     try:
-        sql = 'SELECT distinct Name, price FROM weeklyprofit Order By Date DESC'
+        sql = 'SELECT distinct Name, price FROM weeklyprofit Order By Date DESC LIMIT 10'
         cursor.execute(sql)
         trend = cursor.fetchall()
         return trend
@@ -41,7 +41,7 @@ def gettopchart():
             fname = row[1]
             fvol = row[2]
             clabels.append(fname.upper())
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         cmax = max(cvalues)
         if min(cvalues) < 0:
             cmin = min(cvalues)
@@ -62,7 +62,7 @@ def gettopnews():
     mydb.close()
 
 
-def getyrbarchart():
+def getyrdashchart():
     clabels = []
     cvalues = []
     cmax = 0
@@ -75,7 +75,7 @@ def getyrbarchart():
             fname = row[0]
             fvol = row[3]
             clabels.append(fname.upper())
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         cmax = max(cvalues)
         if min(cvalues) < 0:
             cmin = min(cvalues)
@@ -84,10 +84,9 @@ def getyrbarchart():
         print("Error: unable to fetch data")
 
 
-def getwkbarchart():
+def getwkdashchart():
     clabels = []
     cvalues = []
-
     cmax = 0
     cmin = 0
     sql = "SELECT * FROM barweeklyprofit"
@@ -97,10 +96,8 @@ def getwkbarchart():
         for row in chart:
             fname = row[0]
             fvol = row[3]
-            clabels.append(fname)
-            cvalues.append(fvol)
-        clabels.reverse()
-        cvalues.reverse()
+            clabels.append(fname.upper())
+            cvalues.append(round(fvol,2))
         cmax = max(cvalues)
         if min(cvalues) < 0:
             cmin = min(cvalues)
@@ -109,7 +106,7 @@ def getwkbarchart():
         print("Error: unable to fetch data")
 
 
-def getmbtcchart():
+def getmdashchart():
     clabels = []
     cvalues = []
 
@@ -122,10 +119,8 @@ def getmbtcchart():
         for row in chart:
             fname = row[0]
             fvol = row[3]
-            clabels.append(fname)
-            cvalues.append(fvol)
-        clabels.reverse()
-        cvalues.reverse()
+            clabels.append(fname.upper())
+            cvalues.append(round(fvol,2))
         cmax = max(cvalues)
         if min(cvalues) < 0:
             cmin = min(cvalues)
@@ -147,7 +142,7 @@ def getyrbtcchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -172,7 +167,7 @@ def getwkbtcchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -197,7 +192,7 @@ def getmbtcchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -246,7 +241,7 @@ def getyrethchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -271,7 +266,7 @@ def getwkethchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -296,7 +291,7 @@ def getmethchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -345,7 +340,7 @@ def getyrtetchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -372,7 +367,7 @@ def getwktetchart():
             fvol = row[3]
 
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
 
         clabels.reverse()
         cvalues.reverse()
@@ -400,7 +395,7 @@ def getmtetchart():
             fvol = row[3]
 
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
 
         clabels.reverse()
         cvalues.reverse()
@@ -452,7 +447,7 @@ def getyrcarchart():
             fvol = row[3]
 
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
 
         clabels.reverse()
         cvalues.reverse()
@@ -480,7 +475,7 @@ def getwkcarchart():
             fvol = row[3]
 
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
 
         clabels.reverse()
         cvalues.reverse()
@@ -508,7 +503,7 @@ def getmcarchart():
             fvol = row[3]
 
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
 
         clabels.reverse()
         cvalues.reverse()
@@ -558,7 +553,7 @@ def getyrbinancechart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -583,7 +578,7 @@ def getwkbinancechart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -608,7 +603,7 @@ def getmbinancechart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -657,7 +652,7 @@ def getyrpolkadotchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -682,7 +677,7 @@ def getwkpolkadotchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -707,7 +702,7 @@ def getmpolkadotchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -755,7 +750,7 @@ def getyrxrpchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -779,7 +774,7 @@ def getwkxrpchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -803,7 +798,7 @@ def getmxrpchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -851,7 +846,7 @@ def getyruniswapchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -875,7 +870,7 @@ def getwkuniswapchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -899,7 +894,7 @@ def getmuniswapchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -947,7 +942,7 @@ def getyrlitecoinchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -971,7 +966,7 @@ def getwklitecoinchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -995,7 +990,7 @@ def getmlitecoinchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -1043,7 +1038,7 @@ def getyrchainlinkchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -1067,7 +1062,7 @@ def getwkchainlinkchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -1091,7 +1086,7 @@ def getmchainlinkchart():
             fname = row[1]
             fvol = row[3]
             clabels.append(fname)
-            cvalues.append(fvol)
+            cvalues.append(round(fvol,2))
         clabels.reverse()
         cvalues.reverse()
         cmax = max(cvalues)
@@ -1126,25 +1121,45 @@ def getchainlinkcomment():
     mydb.close()
 
 
-@app.route('/dash2')
-def dash2():
-    line_labels, line_values, cmax, cmin = gettopchart()
-    news = gettopnews()
-    title = "dash 2"
-    title2 = "test only"
-    return render_template('testindex.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends)
-
-
 @app.route('/')
 @app.route('/dash')
 def dash():
     line_labels, line_values, cmax, cmin = gettopchart()
-    bar_labels, bar_values, bmax, bmin = getyrbarchart()
+    bar_labels, bar_values, bmax, bmin = getyrdashchart()
     news = gettopnews()
     title = "World's"
     title2 = "Top Coin"
     title3 = "1 Year"
-    return render_template('dash-2.html', title=title, title2=title2, title3=title3, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, bmax=bmax, bmin=bmin)
+    wkbtc = '/wkdash'
+    monbtc = '/mondash'
+    yrbtc = '/dash'
+    return render_template('dash-2.html', title=title, title2=title2, title3=title3, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, bmax=bmax, bmin=bmin, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+@app.route('/wkdash')
+def wkdash():
+    line_labels, line_values, cmax, cmin = gettopchart()
+    bar_labels, bar_values, bmax, bmin = getwkdashchart()
+    news = gettopnews()
+    title = "World's"
+    title2 = "Top Coin"
+    title3 = "1 Week"
+    wkbtc = '/wkdash'
+    monbtc = '/mondash'
+    yrbtc = '/dash'
+    return render_template('dash-2.html', title=title, title2=title2, title3=title3, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, bmax=bmax, bmin=bmin, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
+@app.route('/mondash')
+def mondash():
+    line_labels, line_values, cmax, cmin = gettopchart()
+    bar_labels, bar_values, bmax, bmin = getmdashchart()
+    news = gettopnews()
+    title = "World's"
+    title2 = "Top Coin"
+    title3 = "1 Month"
+    wkbtc = '/wkdash'
+    monbtc = '/mondash'
+    yrbtc = '/dash'
+    return render_template('dash-2.html', title=title, title2=title2, title3=title3, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, bmax=bmax, bmin=bmin, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 
 @app.route('/bitcoin')

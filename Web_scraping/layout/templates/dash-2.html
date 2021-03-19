@@ -17,91 +17,78 @@
 {%block wkchart%}
 <canvas class="my-4 w-90" id="chart3" width="1100" height="300"></canvas>
 <script>
-    // bar chart data
-    var barData = {
-      labels : [
-        {% for item in labels %}
-         "{{ item }}",
-        {% endfor %}
-  ],
+  var ctx = document.getElementById('chart3').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [{% for item in labels %}"{{ item }}",{% endfor %}],
+      datasets: [{
+        label: 'Profit',
+        data: [{% for item in values %}"{{ item }}",{% endfor %}],
+        backgroundColor: "rgba(153,255,51,0.4)"
+      }]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Date'
+          }
+        }],
   
-      datasets : [{
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        data : [
-          {% for item in values %}
-             "{{ item }}",
-            {% endfor %}
-      ]
-        }
-      ]
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Profit $USD'
+          }
+        }]
+        
+      }
     }
-  
-   // get bar chart canvas
-   var mychart = document.getElementById("chart3").getContext("2d");
-  
-      max = {{ max }}
-      min = {{ min }}
-      steps = 5
-   // draw bar chart
-   new Chart(mychart).Bar(barData, {
-     scaleOverride: true,
-     scaleSteps: steps,
-     scaleStepWidth: Math.ceil(max / steps),
-     scaleStartValue: 0,
-     scaleShowVerticalLines: true,
-     scaleShowGridLines : true,
-     barShowStroke : true,
-     scaleShowLabels: true
-     }
-   );
-  
+  });
   </script>
 {%endblock wkchart%}
 
 {%block wkchart2%}
 <canvas class="my-4 w-90" id="chart2" width="1100" height="300"></canvas>
 <script>
-    // bar chart data
-    var barData = {
-      labels : [
-        {% for item in blabels %}
-         "{{ item }}",
-        {% endfor %}
-  ],
+  var ctx = document.getElementById('chart2').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [{% for item in blabels %}"{{ item }}",{% endfor %}],
+      datasets: [{
+        label: 'Profit',
+        data: [{% for item in bvalues %}"{{ item }}",{% endfor %}],
+        backgroundColor: "rgba(153,255,51,0.4)"
+      }]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Date'
+          }
+        }],
   
-      datasets : [{
-        fillColor: "rgba(151,187,205,0.2)",
-        strokeColor: "rgba(151,187,205,1)",
-        pointColor: "rgba(151,187,205,1)",
-        data : [
-          {% for item in bvalues %}
-             "{{ item }}",
-            {% endfor %}
-      ]
-        }
-      ]
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Profit $USD'
+          }
+        }]
+        
+      }
     }
-  
-   // get bar chart canvas
-   var mychart = document.getElementById("chart2").getContext("2d");
-  
-      max = {{bmax}}
-      steps = 5
-   // draw bar chart
-   new Chart(mychart).Bar(barData, {
-     scaleOverride: true,
-     scaleSteps: steps,
-     scaleStepWidth: Math.ceil(max / steps),
-     scaleStartValue: 0,
-     scaleShowVerticalLines: true,
-     scaleShowGridLines : true,
-     barShowStroke : true,
-     scaleShowLabels: true
-     }
-   );
-  
+  });
   </script>
 {%endblock wkchart2%}
 

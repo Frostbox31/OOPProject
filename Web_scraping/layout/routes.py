@@ -994,6 +994,7 @@ def getchainlinkcomment():
     mydb.close()
 #----end----#
 
+#Yearly
 @app.route('/') #default page
 @app.route('/dash')
 def dash():
@@ -1008,10 +1009,11 @@ def dash():
     yrbtc = '/dash' #query sql yearly chart data
     return render_template('dash-2.html', title=title, title2=title2, title3=title3, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
+#Weekly
 @app.route('/wkdash')
 def wkdash():
     line_labels, line_values= gettopchart()
-    bar_labels, bar_values= getwkdashchart()
+    bar_labels, bar_values= getwkdashchart() #query sql weekly data
     news = gettopnews()
     title = "World's"
     title2 = "Top Coin"
@@ -1021,10 +1023,11 @@ def wkdash():
     yrbtc = '/dash'
     return render_template('dash-2.html', title=title, title2=title2, title3=title3, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
+#Monthly
 @app.route('/mondash')
 def mondash():
     line_labels, line_values= gettopchart()
-    bar_labels, bar_values= getmdashchart()
+    bar_labels, bar_values= getmdashchart() #query sql monthly data
     news = gettopnews()
     title = "World's"
     title2 = "Top Coin"
@@ -1037,7 +1040,7 @@ def mondash():
 
 @app.route('/bitcoin')
 def bitcoin():
-    line_labels, line_values= getyrbtcchart()
+    line_labels, line_values= getyrbtcchart() #query sql year data
     news = getbtcnews()
     comments = getbtccomment()
     title = "Bitcoin"
@@ -1050,7 +1053,7 @@ def bitcoin():
 
 @app.route('/wkbitcoin')
 def wkbitcoin():
-    line_labels, line_values= getwkbtcchart()
+    line_labels, line_values= getwkbtcchart() #query sql weekly data
     news = getbtcnews()
     comments = getbtccomment()
     title = "Bitcoin"
@@ -1063,7 +1066,7 @@ def wkbitcoin():
 
 @app.route('/monbitcoin')
 def monbitcoin():
-    line_labels, line_values= getmbtcchart()
+    line_labels, line_values= getmbtcchart() #query sql monthly data
     news = getbtcnews()
     comments = getbtccomment()
     title = "Bitcoin"

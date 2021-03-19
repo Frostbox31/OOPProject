@@ -31,7 +31,7 @@ def _generateGoogleYahooReddit(param,param2):
 
 
 #_getDailyVolumeForAllCoins()           # Get Cryptocurrency Trading Volume Each Day
-#_getHistoricalDataForAllCoin()         # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
+_getHistoricalDataForAllCoin(1)         # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
 #_generateGoogleYahooReddit('Yahoo',150)    # Get Cryptocurrency people comment from Yahoo Finance in multiple of 30
 #_generateGoogleYahooReddit('Google','')   # Get Cryptocurrency and Top 10 Coins Google News
 #_generateGoogleYahooReddit('Reddit',1)    # Get Cryptocurrency Coins Ocurrence in Reddit  EG 1 = 6 or 7 posts

@@ -6,8 +6,16 @@
 {% endfor %}
 {%endblock marqueebar%}
 
+{%block chartbtns%}
+<div class="btn-group me-2">
+  <a href="{{wkbtc}}" class ="btn btn-sm btn-outline-secondary" role="button">Weekly</a>
+  <a href="{{monbtc}}" class ="btn btn-sm btn-outline-secondary" role="button">Monthly</a>
+  <a href="{{yrbtc}}" class ="btn btn-sm btn-outline-secondary" role="button">Yearly</a>
+</div>
+{%endblock chartbtns%}
+
 {%block wkchart%}
-<canvas class="my-4 w-90" id="chart" width="1100" height="300"></canvas>
+<canvas class="my-4 w-90" id="chart3" width="1100" height="300"></canvas>
 <script>
     // bar chart data
     var barData = {
@@ -31,7 +39,7 @@
     }
   
    // get bar chart canvas
-   var mychart = document.getElementById("chart").getContext("2d");
+   var mychart = document.getElementById("chart3").getContext("2d");
   
       max = {{ max }}
       min = {{ min }}
@@ -51,6 +59,51 @@
   
   </script>
 {%endblock wkchart%}
+
+{%block wkchart2%}
+<canvas class="my-4 w-90" id="chart2" width="1100" height="300"></canvas>
+<script>
+    // bar chart data
+    var barData = {
+      labels : [
+        {% for item in blabels %}
+         "{{ item }}",
+        {% endfor %}
+  ],
+  
+      datasets : [{
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        data : [
+          {% for item in bvalues %}
+             "{{ item }}",
+            {% endfor %}
+      ]
+        }
+      ]
+    }
+  
+   // get bar chart canvas
+   var mychart = document.getElementById("chart2").getContext("2d");
+  
+      max = {{bmax}}
+      steps = 5
+   // draw bar chart
+   new Chart(mychart).Bar(barData, {
+     scaleOverride: true,
+     scaleSteps: steps,
+     scaleStepWidth: Math.ceil(max / steps),
+     scaleStartValue: 0,
+     scaleShowVerticalLines: true,
+     scaleShowGridLines : true,
+     barShowStroke : true,
+     scaleShowLabels: true
+     }
+   );
+  
+  </script>
+{%endblock wkchart2%}
 
 {%block newsfeed%}
 {% for row in news %}

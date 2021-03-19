@@ -62,6 +62,78 @@ def gettopnews():
     mydb.close()
 
 
+def getyrbarchart():
+    clabels = []
+    cvalues = []
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM baryearlyprofit"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[0]
+            fvol = row[3]
+            clabels.append(fname.upper())
+            cvalues.append(fvol)
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
+def getwkbarchart():
+    clabels = []
+    cvalues = []
+
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM barweeklyprofit"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[0]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
+def getmbtcchart():
+    clabels = []
+    cvalues = []
+
+    cmax = 0
+    cmin = 0
+    sql = "SELECT * FROM barmonthlyprofit"
+    cursor.execute(sql)
+    chart = cursor.fetchall()
+    try:
+        for row in chart:
+            fname = row[0]
+            fvol = row[3]
+            clabels.append(fname)
+            cvalues.append(fvol)
+        clabels.reverse()
+        cvalues.reverse()
+        cmax = max(cvalues)
+        if min(cvalues) < 0:
+            cmin = min(cvalues)
+        return clabels, cvalues, cmax, cmin
+    except:
+        print("Error: unable to fetch data")
+
+
 def getyrbtcchart():
     clabels = []
     cvalues = []
@@ -1067,10 +1139,12 @@ def dash2():
 @app.route('/dash')
 def dash():
     line_labels, line_values, cmax, cmin = gettopchart()
+    bar_labels, bar_values, bmax, bmin = getyrbarchart()
     news = gettopnews()
     title = "World's"
     title2 = "Top Coin"
-    return render_template('dash-2.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends)
+    title3 = "1 Year"
+    return render_template('dash-2.html', title=title, title2=title2, title3=title3, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, bmax=bmax, bmin=bmin)
 
 
 @app.route('/bitcoin')
@@ -1422,6 +1496,7 @@ def monlitecoin():
     monbtc = '/monlitecoin'
     yrbtc = '/litecoin'
     return render_template('index.html', title=title, title2=title2, max=cmax, min=cmin, labels=line_labels, values=line_values, news=news, comments=comments, trends=trends, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
+
 
 @app.route('/chainlink')
 def chainlink():

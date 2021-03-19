@@ -145,7 +145,22 @@
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Cryptocurrency Data Analysis</h1>
+
+        </div>
+
+        <center>
+          <h1>{{ title }} {{ title2 }}</h1>
+          {%block  wkchart%}
+          {%endblock wkchart%}
+          <br>
+        </center>
+
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Average Profit</h1>
           <div class="btn-toolbar mb-2 mb-md-0">
+            {%block  chartbtns%}
+            {%endblock chartbtns%}
             <!-- <div class="btn-group me-2">
               <a href="{{url_for('wkbitcoin')}}" class ="btn btn-sm btn-outline-secondary" role="button">Weekly</a>
               <a href="{{url_for('monbitcoin')}}" class ="btn btn-sm btn-outline-secondary" role="button">Monthly</a>
@@ -157,11 +172,11 @@
             </button> -->
           </div>
         </div>
-
+        
         <center>
-          <h1>{{ title }} {{ title2 }}</h1>
-          {%block  wkchart%}
-          {%endblock wkchart%}
+          <h1>{{ title3 }}</h1>
+          {%block  wkchart2%}
+          {%endblock wkchart2%}
         </center>
 
         <h2>Latest {{ title }} News</h2>

@@ -1,7 +1,5 @@
 from SecondLayer.Utilities import _selectSQLCommand
 from SecondLayer.Profit import data_manu
-import time
-from decimal import Decimal
 
 def getTotalVolumeForTheDay(): # Return the Total number of volume cryptocurrency traded during a day.
     totalvolume =  _selectSQLCommand('SELECT Volume FROM coinvolume where name = "Total Volume"','')
@@ -30,13 +28,7 @@ def GetProfit():
     call.yearly_Profit()
     call.Insert()
 
-CalculateTime = Decimal(time.perf_counter()) #Start the Timer
-
 GetProfit()
 
-#getCoinsShortForm()
-
-CalculateTime = Decimal(time.perf_counter()) - CalculateTime # Calculate the difference between the time
-print(str(CalculateTime) + " Seconds") #Display the time taken for the program to run
 
 

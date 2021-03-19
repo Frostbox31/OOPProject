@@ -1,5 +1,5 @@
-from SecondLayer.Google import _getGoogleNews
-from SecondLayer.Yahoo import _getYahooFinanceComment
+
+from SecondLayer.Google import *
 from SecondLayer.Reddit import _getRedditCoinOccur
 from SecondLayer.CoinGecko import _getHistoricalDataForAllCoin,_getDailyVolumeForAllCoins
 from GetResult import getCoinsName, getCoinsShortForm
@@ -7,6 +7,7 @@ import time
 from decimal import Decimal
 from time import sleep
 import numpy as np
+
 
 CalculateTime = Decimal(time.perf_counter()) #Start the Timer
 
@@ -45,10 +46,8 @@ def _generateGoogleYahooReddit(param,param2):
  else:
     print("Please Specific the function")
 
-
-
 #_getDailyVolumeForAllCoins()           # Get Cryptocurrency Trading Volume Each Day
-#_getHistoricalDataForAllCoin(10)         # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
+#_getHistoricalDataForAllCoin(1)         # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
 #_generateGoogleYahooReddit('Yahoo',120)    # Get Cryptocurrency people comment from Yahoo Finance in multiple of 30
 #_generateGoogleYahooReddit('Google','')   # Get Cryptocurrency and Top 10 Coins Google News according to coingecko table
 #_generateGoogleYahooReddit('Reddit',1)    # Get Cryptocurrency Coins Ocurrence in Reddit  EG 1 = 6 or 7 posts

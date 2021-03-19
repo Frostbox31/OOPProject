@@ -1,8 +1,7 @@
-from SecondLayer.Utilities import _commitSQLCommand, _getRandomHeader, _getRandomProxy
+from SecondLayer.Utilities import _commitSQLCommand, _getRandomHeader
 import requests
 from bs4 import BeautifulSoup
 from datetime import date
-import random
 
 class Data:
       def __init__(coin,name,date,marketcap, volume,open,close):
@@ -19,9 +18,8 @@ def __sublink(): #Get Cryptocurrency Link
   enddate = date.today().strftime("%Y-%m-%d")
   startdate = "2010-01-01"
   endwith = ["compare","trending","high_volume","all","recently_added"]
-  proxy = _getRandomProxy()
   
-  request = requests.get('https://coingecko.com/',proxies=random.choice(proxy),headers=_getRandomHeader())
+  request = requests.get('https://coingecko.com/',headers=_getRandomHeader())
 
   soup = BeautifulSoup(request.content, 'html.parser')
     
@@ -39,14 +37,13 @@ def _getHistoricalDataForAllCoin(numberofcoin): # Get Cryptocurrency MarketCap,V
 
         link = __sublink()
         dataset =  []
-        proxy = _getRandomProxy()
 
         for position in range(len(link)-100+numberofcoin): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
             
             date = []
             coindata = []
 
-            request = requests.get(link[99-position],proxies=random.choice(proxy),headers=_getRandomHeader())
+            request = requests.get(link[99-position],headers=_getRandomHeader())
 
             coinname = link[99-position].split("/")[5]
 
@@ -84,12 +81,10 @@ def _getDailyVolumeForAllCoins(): # Get Cryptocurrency Trading Volume Each Day
     pagenumber = 1
     check = pagenumber
 
-    proxy = _getRandomProxy()
-
     while pagenumber == check:
       coinvolumeprice = []
       coinprice = []
-      request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),proxies=random.choice(proxy),headers=_getRandomHeader())
+      request = requests.get('https://www.coingecko.com/en/coins/all/show_more_coins?page=' + str(pagenumber),headers=_getRandomHeader())
 
       soup = BeautifulSoup(request.content, 'html.parser')
 

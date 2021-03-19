@@ -1,7 +1,6 @@
-from SecondLayer.Utilities import _getRandomHeader, _commitSQLCommand, _getRandomProxy
+from SecondLayer.Utilities import _getRandomHeader, _commitSQLCommand
 import requests
 import re
-import random
 class yahooComment:
       def __init__(user,comment,like,dislike,replies):
           user.comment = comment
@@ -11,14 +10,13 @@ class yahooComment:
 
 def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency people comment from Yahoo Finance
     
-    proxy = _getRandomProxy()
     count = 30;
     dataset = []
     check = 0
     link = "https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+coin+"_CCC;count=30;lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
     
     while len(dataset) < numberofcomment and check != 1: #Change the number to get the desired number of comments
-        request = requests.get(link,proxies=random.choice(proxy),headers=_getRandomHeader())
+        request = requests.get(link,headers=_getRandomHeader())
 
         #Find the specified sentence/number/word by using regex expressions
         comment = re.findall("userText?.*?tags",str(request.content.decode('utf8').encode('ascii', errors='ignore')))

@@ -1,6 +1,4 @@
 
-import requests
-from bs4 import BeautifulSoup
 import random
 import sys
 import mysql.connector
@@ -29,19 +27,19 @@ def checkYear(year): # Check for leap year
         return 365
 pass
 
-def _getRandomProxy(): #Provide free Proxies for Web Scrapping to prevent detection from the parties
+#def _getRandomProxy(): #Provide free Proxies for Web Scrapping to prevent detection from the parties
 
-    Hypertext = ["http"]
-    request = requests.get('https://www.sslproxies.org/')
-    soup = BeautifulSoup(request.content, 'html.parser')
-    proxies_table = soup.find(id='proxylisttable')
+#    Hypertext = ["http"]
+#    request = requests.get('https://www.sslproxies.org/')
+#    soup = BeautifulSoup(request.content, 'html.parser')
+#    proxies_table = soup.find(id='proxylisttable')
 
-    for row in proxies_table.tbody.find_all('tr'):
-        proxy = random.choice(Hypertext);
-        proxieslist.append({proxy: proxy+'://'+row.find_all('td')[0].string + ":"+ row.find_all('td')[1].string,})
+#    for row in proxies_table.tbody.find_all('tr'):
+#        proxy = random.choice(Hypertext);
+#        proxieslist.append({proxy: proxy+'://'+row.find_all('td')[0].string + ":"+ row.find_all('td')[1].string,})
 
-    return proxieslist
-pass
+#    return proxieslist
+#pass
 
 def _getRandomHeader(): #Provide Headers for Web Scrapping to prevent detection from the parties
 

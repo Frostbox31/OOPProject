@@ -33,9 +33,9 @@ class data_manu:
         cur.execute('DELETE FROM weeklyprofit')
         cur.execute('DELETE FROM monthlyprofit')
         cur.execute('DELETE FROM yearlyprofit')
-        for x in range(len(self.dates_week_list)):
+        for x in range(len(self.dates_weekly_list)):
             sql = "INSERT INTO weeklyprofit (Name,Date,Price,Profit) VALUES (%s,%s,%s,%s)"
-            val = (self.name_week[x],self.dates_week_list[x],self.week_price[x],self.weekly_profit_list[x])
+            val = (self.name_weekly[x],self.dates_weekly_list[x],self.weekly_price[x],self.weekly_profit_list[x])
             cur.execute(sql, val)
         self.mydb.commit()
         for x in range(len(self.dates_month_list)):
@@ -48,8 +48,8 @@ class data_manu:
             val = (self.name_year[x],self.dates_year_list[x],self.year_price[x],self.yearly_profit_list[x])
             cur.execute(sql, val)
         self.mydb.commit()
-
-
+       
+    
     def InsertBarProfit(self):
         cur = self.mydb.cursor()
         cur.execute('DELETE FROM barweeklyprofit')
@@ -194,12 +194,12 @@ class data_manu:
         cur = self.mydb.cursor()
         cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week_start_date,week_end_date]) 
         self.week_result = cur.fetchall() 
-        self.week_list = self.cal_profit_dict(self.week_result)
-        self.weekly_profit_list,self.week_price,self.dates_week_list,self.name_month = self.month_list        
-        #print(self.month_price)  
-        #print(self.monthly_profit_list)      
-        #print(self.dates_month_list)
-        #print(self.name_month)
+        self.weekly_list = self.cal_profit_dict(self.week_result)
+        self.weekly_profit_list,self.weekly_price,self.dates_weekly_list,self.name_weekly = self.weekly_list        
+        # print(self.week_price)  
+        # print(self.week_profit_list)      
+        # print(self.dates_week_list)
+        # print(self.name_week)
 
     def avg_week_profit(self):
         week_delta = relativedelta(weeks=1)    #now only compare 1 week
@@ -273,20 +273,20 @@ class data_manu:
 
 
     def cal_profit_dict(self,arr):
-        week_arr = list(item for item in arr)
+        test_arr = list(item for item in arr)
         #print(week_arr)
-        week_dict = defaultdict(list)
-        self.week_price=[]
-        self.dates_week_list=[]
-        self.name_week =[]
-        self.weekly_profit_list=[]
-        for k,*v in week_arr:
-            week_dict[k].append(v)
-        #print(dict(week_dict))
-        for key,value in week_dict.items():
-            #print(key,week_dict[key])
+        test_dict = defaultdict(list)
+        self.test_price=[]
+        self.test_date_list=[]
+        self.test_name =[]
+        self.test_profit_list=[]
+        for k,*v in test_arr:
+            test_dict[k].append(v)
+        #print(dict(test_dict))
+        for key,value in test_dict.items():
+            #print(key,test_dict[key])
             #today_price_list.append(value[0][1])
-            for item in week_dict[key]:
+            for item in test_dict[key]:
                 item[1] = item[1][1:] #remove '$'
                 item[1] = item[1].replace(',', '')
                 #print(value[0][1],key)
@@ -294,17 +294,17 @@ class data_manu:
                 #print(today_price)
                 profit = ((float(today_price) - float(item[1])) /float(today_price)) *100
                 #print(profit)
-                self.weekly_profit_list.append(profit)
+                self.test_profit_list.append(profit)
                 #print(key, item[0], item[1])
-                self.week_price.append(item[1])
-                self.dates_week_list.append(item[0])
-                self.name_week.append(key)
+                self.test_price.append(item[1])
+                self.test_date_list.append(item[0])
+                self.test_name.append(key)
         
-        #print(self.week_price)  
-        #print(self.weekly_profit_list)      
-        #print(self.dates_week_list)
-        # print(self.name_week)
-        return self.weekly_profit_list,self.week_price,self.dates_week_list,self.name_week
+        #print(self.test_price)  
+        #print(self.test_profit_list)      
+        #print(self.test_date_list)
+        # print(self.test_name)
+        return self.test_profit_list,self.test_price,self.test_date_list,self.test_name
     
     
     
@@ -315,7 +315,7 @@ class data_manu:
 
 call = data_manu()    
 call.Query()
-#call.weekly_Profit()
+call.weekly_Profit()
 call.monthly_Profit()
 call.yearly_Profit()
 call.Insert()

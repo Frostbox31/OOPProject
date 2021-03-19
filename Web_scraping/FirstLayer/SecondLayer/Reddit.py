@@ -1,8 +1,7 @@
-from SecondLayer.Utilities import _getRandomHeader, _commitSQLCommand, _getRandomProxy
+from SecondLayer.Utilities import _getRandomHeader, _commitSQLCommand
 import requests
 from bs4 import BeautifulSoup
 import re
-import random
     
 
 def __subRedditCommentLink(post): # Get all the Sub Link of https://www.reddit.com/r/CryptoCurrency/
@@ -11,13 +10,12 @@ def __subRedditCommentLink(post): # Get all the Sub Link of https://www.reddit.c
   output = []
   link = []
   id = '' 
-  proxy = _getRandomProxy()
   counter = 0
 
   while  counter < post: #each time will return six or seven post
 
     while len(output) == 0 :
-      request = requests.get('https://www.reddit.com/r/CryptoCurrency/'+ reddit_subtitle[0]+ '/?after=' + id,proxies=random.choice(proxy),headers=_getRandomHeader())
+      request = requests.get('https://www.reddit.com/r/CryptoCurrency/'+ reddit_subtitle[0]+ '/?after=' + id,headers=_getRandomHeader())
       soup = BeautifulSoup(request.content, 'html.parser')
     
       for match in soup.find_all(attrs={"data-click-id": 'comments'}): # Sub Reddit Comment Link
@@ -38,10 +36,9 @@ pass
 def __getRedditSubSubComment(post): #Get all the Comment from https://www.reddit.com/r/CryptoCurrency/......./
     link = __subRedditCommentLink(post)
     comments = []
-    proxy = _getRandomProxy()
 
     for x in range(len(link)):       
-        request = requests.get('https://www.' + link[x] + '.json',headers=_getRandomHeader(),proxies=random.choice(proxy))
+        request = requests.get('https://www.' + link[x] + '.json',headers=_getRandomHeader())
 
         subredditcomment = re.findall('"title"?.*?"link_flair_richtext?',request.text)
         subsubredditcomment = re.findall('"body".*?"edited"',request.text) 

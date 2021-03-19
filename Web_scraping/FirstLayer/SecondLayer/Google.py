@@ -1,11 +1,10 @@
-from SecondLayer.Utilities import _commitSQLCommand, _getRandomProxy,checkMonth,checkYear,_getRandomHeader
+from SecondLayer.Utilities import _commitSQLCommand,checkMonth,checkYear,_getRandomHeader
 import requests
 from bs4 import BeautifulSoup
 import re
 from datetime import date
 import numpy as np
 from time import sleep
-import random
 
 def _getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
     
@@ -14,7 +13,6 @@ def _getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
     link = []
     time = []
     number = 0
-    proxy = _getRandomProxy()
 
     while number < 100: 
 
@@ -22,7 +20,7 @@ def _getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
         delay = np.random.choice(delays)
         sleep(delay)
 
-        request = requests.get(url,proxies=random.choice(proxy),headers=_getRandomHeader())
+        request = requests.get(url,headers=_getRandomHeader())
         soup = BeautifulSoup(request.content, 'html.parser')
 
         for match in soup.find_all('div',class_='BNeawe vvjwJb AP7Wnd'):

@@ -31,39 +31,49 @@ def __sublink(): #Get Cryptocurrency Link
   return output
 pass
 
-def _getHistoricalDataForAllCoin(): # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
+def _getHistoricalDataForAllCoin(numberofcoin): # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
 
-  link = __sublink()
-  dataset =  []
-  proxy = _getRandomProxy()
+  if  isinstance(numberofcoin,int) == True:
 
-  for position in range(len(link)-98): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
-      
-      date = []
-      coindata = []
+    if numberofcoin < 100 and numberofcoin > 0:   
 
-      request = requests.get(link[99-position],proxies=random.choice(proxy),headers=_getRandomHeader())
+        link = __sublink()
+        dataset =  []
+        proxy = _getRandomProxy()
 
-      coinname = link[99-position].split("/")[5]
+        for position in range(len(link)-100+numberofcoin): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
+            
+            date = []
+            coindata = []
 
-      soup = BeautifulSoup(request.content, 'html.parser')
+            request = requests.get(link[99-position],proxies=random.choice(proxy),headers=_getRandomHeader())
 
-      match = soup.find('table')
-      
-      for match in soup.find_all(attrs={"scope": 'row'}):
-          date.insert(len(date),match.text)
+            coinname = link[99-position].split("/")[5]
 
-      for match in soup.find_all("td",class_='text-center'):
-          coindata.insert(len(coindata),match.get_text(strip=True))
+            soup = BeautifulSoup(request.content, 'html.parser')
+
+            match = soup.find('table')
+            
+            for match in soup.find_all(attrs={"scope": 'row'}):
+                date.insert(len(date),match.text)
+
+            for match in soup.find_all("td",class_='text-center'):
+                coindata.insert(len(coindata),match.get_text(strip=True))
+            
+            inc =0;
+            for x in range(len(date)):
+                dataset.insert(len(dataset),Data(coinname,date[x],coindata[inc],coindata[1+inc],coindata[2+inc],coindata[3+inc]))   
+                inc += 4
+            
+        _commitSQLCommand('DELETE FROM CoinGeckoData','')
+        for x in range(len(dataset)):
+            _commitSQLCommand('INSERT INTO CoinGeckoData VALUES (%s, %s, %s, %s, %s, %s)',(dataset[x].name,dataset[x].date,dataset[x].marketcap,str(dataset[x].volume).replace('$',''),dataset[x].open,dataset[x].close))
     
-      inc =0;
-      for x in range(len(date)):
-          dataset.insert(len(dataset),Data(coinname,date[x],coindata[inc],coindata[1+inc],coindata[2+inc],coindata[3+inc]))   
-          inc += 4
-    
-  _commitSQLCommand('DELETE FROM CoinGeckoData','')
-  for x in range(len(dataset)):
-    _commitSQLCommand('INSERT INTO CoinGeckoData VALUES (%s, %s, %s, %s, %s, %s)',(dataset[x].name,dataset[x].date,dataset[x].marketcap,str(dataset[x].volume).replace('$',''),dataset[x].open,dataset[x].close))
+    else:
+        print("Please input 1 - 100 only ")
+  else:
+     print("Please input number only")
+
 pass
 
 def _getDailyVolumeForAllCoins(): # Get Cryptocurrency Trading Volume Each Day

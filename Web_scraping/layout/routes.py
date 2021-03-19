@@ -1428,7 +1428,7 @@ def chainlink():
     line_labels, line_values, cmax, cmin = getyrchainlinkchart()
     news = getchainlinknews()
     comments = getchainlinkcomment()
-    title = "chainlink"
+    title = "Chainlink"
     title2 = "Yearly Data"
     wkbtc = '/wkchainlink'
     monbtc = '/monchainlink'
@@ -1441,7 +1441,7 @@ def wkchainlink():
     line_labels, line_values, cmax, cmin = getwkchainlinkchart()
     news = getchainlinknews()
     comments = getchainlinkcomment()
-    title = "chainlink"
+    title = "Chainlink"
     title2 = "Weekly Data"
     wkbtc = '/wkchainlink'
     monbtc = '/monchainlink'
@@ -1454,7 +1454,7 @@ def monchainlink():
     line_labels, line_values, cmax, cmin = getmlitecoinchart()
     news = getchainlinknews()
     comments = getchainlinkcomment()
-    title = "chainlink"
+    title = "Chainlink"
     title2 = "Monthly Data"
     wkbtc = '/wkchainlink'
     monbtc = '/monchainlink'

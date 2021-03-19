@@ -27,6 +27,10 @@ def GetProfit():
     call.monthly_Profit()
     call.yearly_Profit()
     call.Insert()
+    call.avg_year_profit()
+    call.avg_month_profit()
+    call.avg_week_profit()
+    call.InsertBarProfit()
 
 GetProfit()
 

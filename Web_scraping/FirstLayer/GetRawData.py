@@ -2,6 +2,7 @@
 from SecondLayer.Google import *
 from SecondLayer.Reddit import _getRedditCoinOccur
 from SecondLayer.CoinGecko import _getHistoricalDataForAllCoin,_getDailyVolumeForAllCoins
+from SecondLayer.Yahoo import _getYahooFinanceComment
 from GetResult import getCoinsName, getCoinsShortForm
 import time
 from decimal import Decimal
@@ -17,6 +18,7 @@ def _generateGoogleYahooReddit(param,param2):
 
     if isinstance(param2,int) == True or param == "Google":
 
+                coinsname = []
                 coinsname = getCoinsName()
 
                 if 'Reddit' == param and param2 > 0:

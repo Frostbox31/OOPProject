@@ -14,7 +14,7 @@ def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency 
     dataset = []
     check = 0
     link = "https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+coin+"_CCC;count=30;lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
-    
+
     while len(dataset) < numberofcomment and check != 1: #Change the number to get the desired number of comments
         request = requests.get(link,headers=_getRandomHeader())
 
@@ -32,8 +32,9 @@ def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency 
             comment[x] = re.sub('https?.*|"imageMessageDetails?.*','',str(comment[x]).replace("\\n",'').replace("\\",'')) #Fliter the sentence/number or word
             if comment[x] != 'userText":"':
                 dataset.insert(len(dataset),yahooComment(str(comment[x])[11:-8],str(like[x]).replace('upVoteCount":','').replace(",",''),str(dislike[x]).replace('downVoteCount":','').replace(",",''),str(reply[x]).replace('replyCount":','').replace("},",'')))
-
-        link ="https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+ coin+ "_CCC;count=30;" + "index=v%3D" + nextpage[0][15:-32] +  "%3As%3D" + nextpage[0][19:-22] + "%3Asl%3D" + nextpage[0][30:-8] +  "%3Aoff%3D" + str(count) + ";lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
+        
+        if len(nextpage) !=  0:
+            link ="https://sg.finance.yahoo.com/_finance_doubledown/api/resource/canvass.getMessageList;apiVersion=v1;context=finmb_"+ coin+ "_CCC;count=30;" + "index=v%3D" + nextpage[0][15:-32] +  "%3As%3D" + nextpage[0][19:-22] + "%3Asl%3D" + nextpage[0][30:-8] +  "%3Aoff%3D" + str(count) + ";lang=en-SG;namespace=yahoo_finance;oauthConsumerKey=finance.oauth.client.canvass.prod.consumerKey;oauthConsumerSecret=finance.oauth.client.canvass.prod.consumerSecret;query=namespace%20%3D%20%22yahoo_finance%22%20and%20(contextId%3D%22finmb_"+coin+"_CCC%22%20or%20tag%3D%22"+coin+"-USD%22);"
         count += 30
     pass
 

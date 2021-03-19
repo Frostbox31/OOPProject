@@ -31,13 +31,13 @@ def __sublink(): #Get Cryptocurrency Link
   return output
 pass
 
-def _getHistoricalDataForAllCoin(): # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
+def _getHistoricalDataForAllCoin(numberofcoin): # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
 
   link = __sublink()
   dataset =  []
   proxy = _getRandomProxy()
 
-  for position in range(len(link)-98): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
+  for position in range(len(link)-100+numberofcoin): #change this to get the number of coins, For EG: 99 = 1 Coin, 98 = 2 Coin
       
       date = []
       coindata = []

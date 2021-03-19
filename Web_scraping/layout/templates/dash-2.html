@@ -1,11 +1,14 @@
+<!-- extend layout.html -->
 {% extends 'dash.html' %}
 
+<!-- get top chart data and marquee on top 10 board -->
 {%block marqueebar%}
 {% for row in trends %}
   {{row[0]}} ${{row[1]}} &emsp;
 {% endfor %}
 {%endblock marqueebar%}
 
+<!-- weekly, monthly, yearly chart button control -->
 {%block chartbtns%}
 <div class="btn-group me-2">
   <a href="{{wkbtc}}" class ="btn btn-sm btn-outline-secondary" role="button">Weekly</a>
@@ -14,6 +17,7 @@
 </div>
 {%endblock chartbtns%}
 
+<!-- dynamic bar chart for dashboard -->
 {%block wkchart%}
 <canvas class="my-4 w-90" id="chart3" width="1100" height="300"></canvas>
 <script>
@@ -53,6 +57,7 @@
   </script>
 {%endblock wkchart%}
 
+<!-- dynamic bar chart for dashboard -->
 {%block wkchart2%}
 <canvas class="my-4 w-90" id="chart2" width="1100" height="300"></canvas>
 <script>
@@ -92,6 +97,7 @@
   </script>
 {%endblock wkchart2%}
 
+<!-- dynamic news feed for all coin -->
 {%block newsfeed%}
 {% for row in news %}
 <tr>

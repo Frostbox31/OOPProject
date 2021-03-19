@@ -3,6 +3,7 @@ from flask import render_template
 
 import mysql.connector
 
+#----connect sql----#
 mydb = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
@@ -37,8 +38,8 @@ def gettopchart():
     chart = cursor.fetchall()
     try:
         for row in chart:
-            fname = row[1]
-            fvol = row[2]
+            fname = row[1] #take column 1 of the table
+            fvol = row[2] #take column 2 of the table
             clabels.append(fname.upper()) #set label name as all uppercase
             cvalues.append(round(fvol,2)) #round off to 2 decimal place
         return clabels, cvalues
@@ -993,18 +994,18 @@ def getchainlinkcomment():
     mydb.close()
 #----end----#
 
-@app.route('/')
+@app.route('/') #default page
 @app.route('/dash')
 def dash():
-    line_labels, line_values= gettopchart()
-    bar_labels, bar_values= getyrdashchart()
-    news = gettopnews()
+    line_labels, line_values= gettopchart() #query sql top chart data
+    bar_labels, bar_values= getyrdashchart()#query sql year data
+    news = gettopnews() #query sql news data
     title = "World's"
     title2 = "Top Coin"
     title3 = "1 Year"
-    wkbtc = '/wkdash'
-    monbtc = '/mondash'
-    yrbtc = '/dash'
+    wkbtc = '/wkdash' #query sql weekly chart data
+    monbtc = '/mondash' #query sql monthly chart data
+    yrbtc = '/dash' #query sql yearly chart data
     return render_template('dash-2.html', title=title, title2=title2, title3=title3, labels=line_labels, values=line_values, news=news, trends=trends, blabels=bar_labels, bvalues=bar_values, wkbtc=wkbtc, monbtc=monbtc, yrbtc=yrbtc)
 
 @app.route('/wkdash')

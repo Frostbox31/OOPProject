@@ -32,7 +32,7 @@ def _getYahooFinanceComment(coinname,coin,numberofcomment): #Get Cryptocurrency 
 
         for x in range(len(comment)):
             comment[x] = re.sub('https?.*|"imageMessageDetails?.*','',str(comment[x]).replace("\\n",'').replace("\\",'')) #Fliter the sentence/number or word
-            if comment[x] != 'userText":"':
+            if comment[x] != 'userText":"' and comment[x] != 'userText":"",':
                 dataset.insert(len(dataset),yahooComment(str(comment[x])[11:-8],str(like[x]).replace('upVoteCount":','').replace(",",''),str(dislike[x]).replace('downVoteCount":','').replace(",",''),str(reply[x]).replace('replyCount":','').replace("},",'')))
         
         if len(nextpage) !=  0:

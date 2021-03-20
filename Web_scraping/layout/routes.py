@@ -58,7 +58,7 @@ def gettopnews():
         print("unable to connect to the googlenewscryptocurrency database")
     mydb.close()
 
-#----Dashboard display of yearly, monthly, weekly chart----#
+#----Dashboard retrieve of yearly, monthly, weekly chart----#
 def getyrdashchart():
     clabels = []
     cvalues = []
@@ -113,7 +113,7 @@ def getmdashchart():
         print("Error: unable to fetch data")
 #----end----#
 
-#----bitcoin display of yearly, monthly, weekly chart, news, comments----#
+#----bitcoin retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrbtcchart():
     clabels = []
     cvalues = []
@@ -197,7 +197,7 @@ def getbtccomment():
     mydb.close()
 #----end----#
 
-#----ethereum display of yearly, monthly, weekly chart, news, comments----#
+#----ethereum retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrethchart():
     clabels = []
     cvalues = []
@@ -282,7 +282,7 @@ def getethcomment():
     mydb.close()
 #----end----#
 
-#----tether display of yearly, monthly, weekly chart, news, comments----#
+#----tether retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrtetchart():
     clabels = []
     cvalues = []
@@ -373,7 +373,7 @@ def gettetcomment():
     mydb.close()
 #----end----#
 
-#----cardano display of yearly, monthly, weekly chart, news, comments----#
+#----cardano retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrcarchart():
     clabels = []
     cvalues = []
@@ -467,7 +467,7 @@ def getcarcomment():
     mydb.close()
 #----end----#
 
-#----binance coin display of yearly, monthly, weekly chart, news, comments----#
+#----binance coin retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrbinancechart():
     clabels = []
     cvalues = []
@@ -552,7 +552,7 @@ def getbinancecomment():
     mydb.close()
 #----end----#
 
-#----polkadot display of yearly, monthly, weekly chart, news, comments----#
+#----polkadot retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrpolkadotchart():
     clabels = []
     cvalues = []
@@ -637,7 +637,7 @@ def getpolkadotcomment():
     mydb.close()
 #----end----#
 
-#----xrp display of yearly, monthly, weekly chart, news, comments----#
+#----xrp retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrxrpchart():
     clabels = []
     cvalues = []
@@ -722,7 +722,7 @@ def getxrpcomment():
     mydb.close()
 #----end----#
 
-#----uniswap display of yearly, monthly, weekly chart, news, comments----#
+#----uniswap retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyruniswapchart():
     clabels = []
     cvalues = []
@@ -807,7 +807,7 @@ def getuniswapcomment():
     mydb.close()
 #----end----#
 
-#----litecoin display of yearly, monthly, weekly chart, news, comments----#
+#----litecoin retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrlitecoinchart():
     clabels = []
     cvalues = []
@@ -892,7 +892,7 @@ def getlitecoincomment():
     mydb.close()
 #----end----#
 
-#----chainlink display of yearly, monthly, weekly chart, news, comments----#
+#----chainlink retrieve of yearly, monthly, weekly chart, news, comments----#
 def getyrchainlinkchart():
     clabels = []
     cvalues = []

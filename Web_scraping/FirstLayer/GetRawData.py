@@ -1,5 +1,5 @@
 
-from SecondLayer.Google import *
+from SecondLayer.Google import _getGoogleNews
 from SecondLayer.Reddit import _getRedditCoinOccur
 from SecondLayer.CoinGecko import _getHistoricalDataForAllCoin,_getDailyVolumeForAllCoins
 from SecondLayer.Yahoo import _getYahooFinanceComment
@@ -51,7 +51,7 @@ def _generateGoogleYahooReddit(param,param2):
 #_getDailyVolumeForAllCoins()           # Get Cryptocurrency Trading Volume Each Day
 #_getHistoricalDataForAllCoin(1)         # Get Cryptocurrency MarketCap,Volume, Opening Price and Closing since it listed
 #_generateGoogleYahooReddit('Yahoo',120)    # Get Cryptocurrency people comment from Yahoo Finance in multiple of 30
-#_generateGoogleYahooReddit('Google','')   # Get Cryptocurrency and Top 10 Coins Google News according to coingecko table
+_generateGoogleYahooReddit('Google','')   # Get Cryptocurrency and Top 10 Coins Google News according to coingecko table
 #_generateGoogleYahooReddit('Reddit',1)    # Get Cryptocurrency Coins Ocurrence in Reddit  EG 1 = 6 or 7 posts
 CalculateTime = Decimal(time.perf_counter()) - CalculateTime # Calculate the difference between the time
 print(str(CalculateTime) + " Seconds") #Display the time taken for the program to run

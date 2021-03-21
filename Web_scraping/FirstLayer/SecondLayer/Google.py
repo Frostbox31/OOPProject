@@ -1,4 +1,4 @@
-from SecondLayer.Utilities import _commitSQLCommand,checkMonth,checkYear,_getRandomHeader
+from SecondLayer.Utilities import _commitSQLCommand,checkMonth,checkYear
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -20,7 +20,7 @@ def _getGoogleNews(coinname): #Get Cryptocurrency and Top 10 Coins Google News
         delay = np.random.choice(delays)
         sleep(delay)
 
-        request = requests.get(url,headers=_getRandomHeader())
+        request = requests.get(url)
         soup = BeautifulSoup(request.content, 'html.parser')
 
         for match in soup.find_all('div',class_='BNeawe vvjwJb AP7Wnd'):

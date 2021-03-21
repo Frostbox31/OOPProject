@@ -987,8 +987,8 @@ def dash():
     line_labels, line_values = gettopchart()  # query sql top chart data
     bar_labels, bar_values = getyrdashchart()  # query sql year data
     news = gettopnews()  # query sql news data
-    title = "World's"
-    title2 = "Top Coin"
+    title = "Top Mentioned"
+    title2 = "Coin"
     title3 = "1 Year"
     wkbtc = '/wkdash'  # query sql weekly chart data
     monbtc = '/mondash'  # query sql monthly chart data
@@ -1001,8 +1001,8 @@ def wkdash():
     line_labels, line_values = gettopchart()
     bar_labels, bar_values = getwkdashchart()  # query sql weekly data
     news = gettopnews()
-    title = "World's"
-    title2 = "Top Coin"
+    title = "Top Mentioned"
+    title2 = "Coin"
     title3 = "1 Week"
     wkbtc = '/wkdash'
     monbtc = '/mondash'
@@ -1015,8 +1015,8 @@ def mondash():
     line_labels, line_values = gettopchart()
     bar_labels, bar_values = getmdashchart()  # query sql monthly data
     news = gettopnews()
-    title = "World's"
-    title2 = "Top Coin"
+    title = "Top Mentioned"
+    title2 = "Coin"
     title3 = "1 Month"
     wkbtc = '/wkdash'
     monbtc = '/mondash'

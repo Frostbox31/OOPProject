@@ -22,7 +22,6 @@ pass
 
 def GetProfit():
     call = data_manu()    
-    call.Query()
     call.weekly_Profit()
     call.monthly_Profit()
     call.yearly_Profit()

@@ -20,14 +20,6 @@ class data_manu:
         )
 
 
-    def Query(self): 
-        cur = self.mydb.cursor() 
-        #cur.execute("select Name,Date,Close from coingeckodata WHERE year(date) = (select max(year(date)) from coingeckodata)")
-        #self.result1 = cur.fetchall()        
-        #for name in self.result1:
-            #print(name)
-        
-
     def Insert(self):
         cur = self.mydb.cursor()
         cur.execute('DELETE FROM weeklyprofit')
@@ -140,7 +132,7 @@ class data_manu:
                         sum = profit+ sum
                         count=count+1
             total_profit_list.append(sum)
-        self.avg_profit =list((x/num_days)for x in total_profit_list) # getting avg profit for each summation
+        self.avg_profit =list((round(x/num_days),2)for x in total_profit_list) # getting avg profit for each summation
         #print(self.avg_profit)     # insert into new avg_year_profit table
             
          
@@ -196,10 +188,11 @@ class data_manu:
         self.week_result = cur.fetchall() 
         self.weekly_list = self.cal_profit_dict(self.week_result)
         self.weekly_profit_list,self.weekly_price,self.dates_weekly_list,self.name_weekly = self.weekly_list        
-        # print(self.week_price)  
-        # print(self.week_profit_list)      
-        # print(self.dates_week_list)
-        # print(self.name_week)
+        # print(self.weekly_price)  
+        # print(self.weekly_profit_list)      
+        # print(self.dates_weekly_list)
+        # print(self.name_weekly)
+
 
     def avg_week_profit(self):
         week_delta = relativedelta(weeks=1)    #now only compare 1 week
@@ -215,61 +208,11 @@ class data_manu:
         # for name in self.month_result:
         #       print(name) 
         self.week_profit_avg,self.week_coins = self.week__avgplist
-        # print(self.week_profit_avg)
-        # print(self.week_coins)    
+        print(self.week_profit_avg)
+        print(self.week_coins)    
 
     
 
-    # def l_weekly_Profit(self):
-    #     week_delta = datetime.timedelta(weeks=1)
-    #     day_delta = datetime.timedelta(days=2)  # 2 days as if market reset at 12pm, ytd's date is still N/A
-    #     week_end_date = datetime.date.today() - day_delta #yesterday date as today's closing is not available yet
-    #     week_start_date = week_end_date - week_delta
-    #     week3_end_date = week_start_date - day_delta 
-    #     #self.week_start_date = week_start_date.strftime("%Y-%m-%d")
-    #     #self.week_end_date = week_end_date.strftime("%Y-%m-%d")  
-    #     cur = self.mydb.cursor()
-    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week_start_date,week_end_date]) 
-    #     self.week_result = cur.fetchall()
-    #     week3_start_date = week_start_date - week_delta
-    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week3_start_date,week3_end_date]) 
-    #     self.week3_result = cur.fetchall()
-    #     week2_end_date = week3_start_date - day_delta
-    #     week2_start_date = week3_start_date - week_delta
-    #     cur = self.mydb.cursor()
-    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week2_start_date,week2_end_date]) 
-    #     self.week2_result = cur.fetchall()
-    #     week1_end_date = week2_start_date - day_delta
-    #     week1_start_date = week2_start_date - week_delta
-    #     cur = self.mydb.cursor()
-    #     cur.execute("SELECT Name,Date,Close from coingeckodata WHERE Date BETWEEN %s AND %s", [week1_start_date,week1_end_date]) 
-    #     self.week1_result = cur.fetchall()     
-    #     # for name in self.week_result:            # can delete this when finish
-    #     #      print(name)
-    #     # for name in self.week3_result:
-    #     #     print(name)
-    #     # for name in self.week2_result:
-    #     #     print(name)
-    #     # for name in self.week1_result:
-    #     #     print(name)
-    #     self.week4_list = self.cal_profit_dict(self.week_result)
-    #     self.week4_profit,self.week4_price,self.week4_date,self.week4_name = self.week4_list
-    #     #self.week4_sprofit_list = self.final_weeks_profit(self.week4_list)
-    #     # self.week3_profit_list = self.weekly_dict(self.week3_result)
-    #     # self.week2_profit_list = self.weekly_dict(self.week2_result)
-    #     # self.week1_profit_list = self.weekly_dict(self.week1_result)
-        
-    #     # print(self.week_price)  
-    #     # print(self.weekly_profit_list)      
-    #     # print(self.dates_week_list)
-    #     #print(self.week4_list)
-    #     # print(week4_date)
-    #     # print(week4_profit)
-    #     # print(week4_name)
-    #     # print(week4_price)
-    #     # print(self.week3_profit_list)
-    #     # print(self.week2_profit_list)
-    #     # print(self.week1_profit_list)
 
 
     def cal_profit_dict(self,arr):
@@ -292,7 +235,7 @@ class data_manu:
                 #print(value[0][1],key)
                 today_price = value[0][1]
                 #print(today_price)
-                profit = ((float(today_price) - float(item[1])) /float(today_price)) *100
+                profit = round((((float(today_price) - float(item[1])) /float(today_price)) *100),2)
                 #print(profit)
                 self.test_profit_list.append(profit)
                 #print(key, item[0], item[1])
@@ -314,7 +257,6 @@ class data_manu:
 #gethistoricaldataforallcoin()
 
 call = data_manu()    
-call.Query()
 call.weekly_Profit()
 call.monthly_Profit()
 call.yearly_Profit()

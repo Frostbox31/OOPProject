@@ -132,7 +132,7 @@ class data_manu:
                         sum = profit+ sum
                         count=count+1
             total_profit_list.append(sum)
-        self.avg_profit =list((round(x/num_days),2)for x in total_profit_list) # getting avg profit for each summation
+        self.avg_profit =list(round(x/num_days,2)for x in total_profit_list) # getting avg profit for each summation
         #print(self.avg_profit)     # insert into new avg_year_profit table
             
          
@@ -205,35 +205,36 @@ class data_manu:
         cur.execute("SELECT Name,Date,Profit from weeklyprofit WHERE Date BETWEEN %s AND %s", [self.week_start_date,self.week_end_date]) 
         self.week_profit = cur.fetchall()
         self.week__avgplist = self.avg_dict(self.week_profit)
-        # for name in self.month_result:
-        #       print(name) 
+        #for name in self.month_result:
+               #print(name) 
         self.week_profit_avg,self.week_coins = self.week__avgplist
-        print(self.week_profit_avg)
-        print(self.week_coins)    
+        # print(self.week_profit_avg)
+        # print(self.week_coins) 
+
 
     
 
 
 
     def cal_profit_dict(self,arr):
-        test_arr = list(item for item in arr)
-        #print(week_arr)
-        test_dict = defaultdict(list)
+        test_arr = list(item for item in arr)                       # create a list for the tuple
+        #print(test_arr)
+        test_dict = defaultdict(list)                               # setting the default factory to a list, creating a list for every new key
         self.test_price=[]
         self.test_date_list=[]
         self.test_name =[]
         self.test_profit_list=[]
-        for k,*v in test_arr:
-            test_dict[k].append(v)
+        for k,*v in test_arr:                                         
+            test_dict[k].append(v)                                   #append other two items as values for each key/coin
         #print(dict(test_dict))
         for key,value in test_dict.items():
             #print(key,test_dict[key])
             #today_price_list.append(value[0][1])
             for item in test_dict[key]:
-                item[1] = item[1][1:] #remove '$'
-                item[1] = item[1].replace(',', '')
+                item[1] = item[1][1:]                                   #remove '$'
+                item[1] = item[1].replace(',', '')                      #replace ',' 
                 #print(value[0][1],key)
-                today_price = value[0][1]
+                today_price = value[0][1]                               #set the first_value for every as the today
                 #print(today_price)
                 profit = round((((float(today_price) - float(item[1])) /float(today_price)) *100),2)
                 #print(profit)
@@ -264,4 +265,4 @@ call.Insert()
 call.avg_year_profit()
 call.avg_month_profit()
 call.avg_week_profit()
-call.InsertBarProfit()
+#call.InsertBarProfit()
